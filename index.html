@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>기숙사 관리 프로그램 매뉴얼</title>
+
+  <!-- ===== PWA 설정 ===== -->
+  <link rel="manifest" href="manual-manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="기숙사 매뉴얼">
+  <meta name="theme-color" content="#1a2744">
+  <link rel="apple-touch-icon" href="manual-icon-192.png">
+  <!-- ===== PWA 설정 끝 ===== -->
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+
+  :root {
+    --navy:   #1a2744;
+    --blue:   #2563eb;
+    --lblue:  #dbeafe;
+    --green:  #16a34a;
+    --lgreen: #dcfce7;
+    --orange: #ea580c;
+    --lorange:#fff7ed;
+    --red:    #dc2626;
+    --lred:   #fee2e2;
+    --purple: #7c3aed;
+    --lpurple:#ede9fe;
+    --yellow: #ca8a04;
+    --lyellow:#fef9c3;
+    --gray:   #64748b;
+    --lgray:  #f1f5f9;
+    --white:  #ffffff;
+    --text:   #1e293b;
+    --border: #e2e8f0;
+    --radius: 14px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #f8fafc;
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+    padding-bottom: 80px;
+  }
+
+  /* ── 상단 헤더 ── */
+  .app-header {
+    background: linear-gradient(135deg, var(--navy) 0%, #2d4a8a 100%);
+    color: white;
+    padding: 20px 16px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+  }
+  .app-header h1 {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+  .app-header p {
+    font-size: 12px;
+    opacity: 0.75;
+    margin-top: 2px;
+  }
+  .header-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    font-size: 11px;
+    padding: 2px 10px;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── 하단 탭바 ── */
+  .tab-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: white;
+    border-top: 1px solid var(--border);
+    display: flex;
+    z-index: 200;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+  }
+  .tab-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 4px 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    background: none;
+    color: #94a3b8;
+    font-family: 'Noto Sans KR', sans-serif;
+    gap: 3px;
+  }
+  .tab-item.active { color: var(--blue); }
+  .tab-item .tab-icon { font-size: 20px; line-height: 1; }
+  .tab-item .tab-label { font-size: 10px; font-weight: 500; }
+
+  /* ── 페이지 컨테이너 ── */
+  .page { display: none; padding: 16px; }
+  .page.active { display: block; animation: fadeIn 0.25s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── 공통 카드 ── */
+  .card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+  .card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title .icon {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; flex-shrink: 0;
+  }
+
+  /* ── 섹션 헤더 ── */
+  .section-header {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin: 20px 0 10px;
+  }
+  .section-header:first-child { margin-top: 0; }
+
+  /* ── 알림 박스 ── */
+  .alert {
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .alert .al-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .alert.tip   { background: var(--lblue);   border-left: 3px solid var(--blue); }
+  .alert.warn  { background: var(--lyellow); border-left: 3px solid var(--yellow); }
+  .alert.danger{ background: var(--lred);    border-left: 3px solid var(--red); }
+  .alert.good  { background: var(--lgreen);  border-left: 3px solid var(--green); }
+  .alert.purple{ background: var(--lpurple); border-left: 3px solid var(--purple); }
+  .alert b { font-weight: 700; }
+
+  /* ── 순서 목록 ── */
+  .steps { list-style: none; margin-bottom: 10px; }
+  .steps li {
+    display: flex; gap: 10px; align-items: flex-start;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--lgray);
+    font-size: 14px;
+  }
+  .steps li:last-child { border-bottom: none; }
+  .step-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--blue); color: white;
+    font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+
+  /* ── 테이블 ── */
+  .tbl { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 10px; }
+  .tbl th {
+    background: var(--navy); color: white;
+    padding: 9px 10px; text-align: left;
+    font-weight: 600; font-size: 12px;
+  }
+  .tbl td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .tbl tr:last-child td { border-bottom: none; }
+  .tbl tr:nth-child(even) td { background: #f8fafc; }
+
+  /* ── 프로그램 목록 카드 (홈) ── */
+  .prog-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: all 0.18s;
+    text-decoration: none;
+    color: inherit;
+  }
+  .prog-card:active { transform: scale(0.98); }
+  .prog-icon {
+    width: 46px; height: 46px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; flex-shrink: 0;
+  }
+  .prog-info { flex: 1; min-width: 0; }
+  .prog-name { font-size: 15px; font-weight: 700; color: var(--navy); }
+  .prog-desc { font-size: 12px; color: var(--gray); margin-top: 2px; }
+  .prog-arrow { color: #cbd5e1; font-size: 18px; }
+
+  /* ── 컬러 뱃지 ── */
+  .badge {
+    display: inline-block;
+    font-size: 11px; font-weight: 600;
+    padding: 2px 8px; border-radius: 20px;
+    margin: 2px 2px 2px 0;
+  }
+  .badge-blue   { background: var(--lblue);   color: var(--blue); }
+  .badge-green  { background: var(--lgreen);  color: var(--green); }
+  .badge-orange { background: var(--lorange); color: var(--orange); }
+  .badge-red    { background: var(--lred);    color: var(--red); }
+  .badge-purple { background: var(--lpurple); color: var(--purple); }
+  .badge-yellow { background: var(--lyellow); color: var(--yellow); }
+  .badge-gray   { background: var(--lgray);   color: var(--gray); }
+
+  /* ── 색상 상태 표 ── */
+  .color-dot {
+    display: inline-block;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    margin-right: 4px;
+    vertical-align: middle;
+    border: 1px solid rgba(0,0,0,0.1);
+  }
+
+  /* ── 체크리스트 ── */
+  .checklist { list-style: none; }
+  .checklist li {
+    padding: 7px 0;
+    border-bottom: 1px solid var(--lgray);
+    font-size: 14px;
+    display: flex; gap: 8px; align-items: flex-start;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li::before {
+    content: "✓";
+    color: var(--green);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── 인라인 강조 ── */
+  .hi  { font-weight: 700; color: var(--navy); }
+  .hi-blue   { font-weight: 700; color: var(--blue); }
+  .hi-red    { font-weight: 700; color: var(--red); }
+  .hi-green  { font-weight: 700; color: var(--green); }
+  .hi-orange { font-weight: 700; color: var(--orange); }
+
+  /* ── 구분선 ── */
+  .divider { height: 1px; background: var(--border); margin: 14px 0; }
+
+  /* ── 홈 배너 ── */
+  .home-banner {
+    background: linear-gradient(135deg, #1a2744, #2563eb);
+    border-radius: var(--radius);
+    padding: 20px;
+    color: white;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .home-banner::after {
+    content: "🏫";
+    position: absolute;
+    right: 16px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 48px;
+    opacity: 0.15;
+  }
+  .home-banner h2 { font-size: 18px; font-weight: 900; margin-bottom: 4px; }
+  .home-banner p  { font-size: 12px; opacity: 0.8; line-height: 1.5; }
+
+  /* ── 반응형 여백 ── */
+  @media (min-width: 600px) {
+    body { max-width: 600px; margin: 0 auto; }
+  }
+
+  .sub-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy);
+    padding: 10px 0 6px;
+    border-bottom: 2px solid var(--lblue);
+    margin-bottom: 10px;
+  }
+  .minor { font-size: 13px; color: var(--gray); line-height: 1.6; }
+  .mb8 { margin-bottom: 8px; }
+  .mt8 { margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<!-- ── 상단 헤더 ── -->
+<div class="app-header">
+  <div class="header-badge">한성과학고 기숙사</div>
+  <h1>기숙사 관리 프로그램 매뉴얼</h1>
+  <p>사감 선생님용 · Version 1.0</p>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- 페이지 1: 홈 -->
+<!-- ══════════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <div class="home-banner">
+    <h2>통합 사용 매뉴얼</h2>
+    <p>자습실 출석부 · 아침 점호 · 심야 자습<br>전자기기 관리 · 퇴실 체크아웃</p>
+  </div>
+
+  <div class="section-header">들어가며</div>
+  <div class="card">
+    <div style="font-size:14px; line-height:1.7; color:#374151;">
+      태하관 기숙사 관리 프로그램은 남·여 기숙사의 학생 출결과 생활지도를 사감 선생님 여러 분이 함께, 더 정확하고 빠르게 처리하기 위해 만든 프로그램 모음입니다.<br><br>
+      <span class="hi">태블릿 화면을 손가락으로 터치하는 것만으로 출결을 기록</span>하고, 그 결과를 <span class="hi">엑셀 파일과 카카오톡 명단으로 바로 내보낼 수 있도록</span> 설계되었습니다.
+    </div>
+  </div>
+
+  <div class="section-header">주요 특징</div>
+  <div class="card">
+    <ul class="checklist">
+      <li><span><b>설치가 필요 없습니다.</b> 링크에 접속만 하면 바로 사용, 원하면 홈 화면에 설치 가능</span></li>
+      <li><span><b>태블릿에 최적화.</b> 갤럭시 탭 S9 FE+ 세로 화면 기준, PC 크롬에서도 동일하게 사용 가능</span></li>
+      <li><span><b>데이터 자동 저장.</b> 명단·배치도·설정은 한 번 등록하면 다음에 켜도 유지</span></li>
+      <li><span><b>엑셀 백업·복원 지원.</b> 기기 교체·초기화 시 백업 파일로 전체 복원 가능</span></li>
+      <li><span><b>자동 업데이트.</b> 선생님이 별도 설치 없이 다음 실행 시 자동 반영</span></li>
+    </ul>
+  </div>
+
+  <div class="section-header">다섯 가지 프로그램</div>
+
+  <div class="prog-card" onclick="goProgPage('prog1')">
+    <div class="prog-icon" style="background:#dbeafe;">📋</div>
+    <div class="prog-info">
+      <div class="prog-name">자습실 출석부</div>
+      <div class="prog-desc">1·2·3교시 야간 자습 상세 출결 — 좌석 배치도</div>
+    </div>
+    <div class="prog-arrow">›</div>
+  </div>
+
+  <div class="prog-card" onclick="goProgPage('prog2')">
+    <div class="prog-icon" style="background:#dcfce7;">🌅</div>
+    <div class="prog-info">
+      <div class="prog-name">기숙사 아침 점호</div>
+      <div class="prog-desc">학번 입력으로 지각·불참 자동 분류</div>
+    </div>
+    <div class="prog-arrow">›</div>
+  </div>
+
+  <div class="prog-card" onclick="goProgPage('prog3')">
+    <div class="prog-icon" style="background:#ede9fe;">🌙</div>
+    <div class="prog-info">
+      <div class="prog-name">심야 자습 출석부</div>
+      <div class="prog-desc">좌석 터치로 출석/부재만 빠르게 체크</div>
+    </div>
+    <div class="prog-arrow">›</div>
+  </div>
+
+  <div class="prog-card" onclick="goProgPage('prog4')">
+    <div class="prog-icon" style="background:#fff7ed;">📱</div>
+    <div class="prog-info">
+      <div class="prog-name">전자기기 관리</div>
+      <div class="prog-desc">핸드폰·태블릿·노트북 제출 학년별 체크</div>
+    </div>
+    <div class="prog-arrow">›</div>
+  </div>
+
+  <div class="prog-card" onclick="goProgPage('prog5')">
+    <div class="prog-icon" style="background:#fce7f3;">🚪</div>
+    <div class="prog-info">
+      <div class="prog-name">퇴실 체크아웃</div>
+      <div class="prog-desc">호실별 상·벌점, 정리정돈, 귀가·퇴사 관리</div>
+    </div>
+    <div class="prog-arrow">›</div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- 페이지 2: 공통 안내 -->
+<!-- ══════════════════════════════════════ -->
+<div class="page" id="page-common">
+
+  <div class="section-header">1. PWA 방식이란?</div>
+  <div class="card">
+    <div class="card-title"><div class="icon" style="background:#dbeafe;">🌐</div>PWA 방식 설명</div>
+    <p style="font-size:14px;line-height:1.7;margin-bottom:10px;">
+      이 프로그램들은 모두 <span class="hi">PWA(Progressive Web App)</span> 방식으로 제공됩니다. 웹사이트인데 앱처럼 쓸 수 있는 프로그램입니다.
+    </p>
+    <div class="alert tip">
+      <span class="al-icon">🔗</span>
+      <div>담당 선생님이 카카오톡으로 각 프로그램의 <b>링크(인터넷 주소)</b>를 공유해 드립니다. 받은 링크를 누른 뒤 크롬 브라우저로 열어 홈 화면에 추가하면 앱처럼 사용할 수 있습니다.</div>
+    </div>
+  </div>
+
+  <div class="section-header">2. 앱처럼 설치하기</div>
+
+  <div class="card">
+    <div class="card-title"><div class="icon" style="background:#dcfce7;">📱</div>안드로이드 태블릿 (갤럭시 탭)</div>
+    <ol class="steps">
+      <li><span class="step-num">1</span><span>카카오톡에서 공유받은 링크를 누릅니다.</span></li>
+      <li><span class="step-num">2</span><span><span class="hi-red">[다른 브라우저로 열기] 또는 [Chrome으로 열기]</span>를 눌러 반드시 크롬으로 엽니다.</span></li>
+      <li><span class="step-num">3</span><span>주소창 오른쪽 끝 <span class="hi">점 세 개 메뉴(⋮)</span>를 누릅니다.</span></li>
+      <li><span class="step-num">4</span><span>하단 메뉴에서 <span class="hi">[홈 화면에 추가]</span>를 누릅니다.</span></li>
+      <li><span class="step-num">5</span><span><span class="hi">[설치]</span>를 누릅니다.</span></li>
+      <li><span class="step-num">6</span><span>바탕화면 아이콘을 누르면 전체 화면으로 실행됩니다.</span></li>
+    </ol>
+    <div class="alert warn">
+      <span class="al-icon">⚠️</span>
+      <div>카카오톡 안의 간이 브라우저에서는 <b>홈 화면 추가가 되지 않습니다.</b> 반드시 크롬으로 열어 주세요.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="icon" style="background:#ede9fe;">💻</div>개인 PC (크롬 브라우저)</div>
+    <ol class="steps">
+      <li><span class="step-num">1</span><span>크롬 주소창에 프로그램 링크를 복사해 접속합니다.</span></li>
+      <li><span class="step-num">2</span><span>주소창 오른쪽 끝 <span class="hi">설치 아이콘(⤓)</span>을 누르거나, 점 세 개 메뉴 → <span class="hi">[프로그램명/설치]</span>를 선택합니다.</span></li>
+      <li><span class="step-num">3</span><span>설치하면 주소창 없이 독립된 창으로 실행됩니다.</span></li>
+    </ol>
+    <div class="alert tip">
+      <span class="al-icon">💡</span>
+      <div>설치하지 않고 즐겨찾기로 사용해도 됩니다. PWA로 설치하면 더 깔끔하게 사용할 수 있습니다.</div>
+    </div>
+  </div>
+
+  <div class="section-header">3. PWA 주요 특징</div>
+  <div class="card">
+    <ul class="checklist">
+      <li><span><b>업데이트 자동 적용</b> — 사용자는 아무것도 하지 않아도 됩니다. 다음 실행 시 자동 반영</span></li>
+      <li><span><b>전용 앱 화면</b> — 주소창이 없는 전체 화면으로 열립니다. 프로그램 안의 버튼으로 이동하세요</span></li>
+      <li><span><b>일부 오프라인 사용</b> — 최초 접속 시 인터넷 필요, 이후 일부 기능은 오프라인 사용 가능</span></li>
+      <li><span><b>기기 내 저장</b> — 명단·배치도·설정과 매일의 기록은 그 기기 안에 보관됩니다</span></li>
+    </ul>
+    <div class="alert warn">
+      <span class="al-icon">🔄</span>
+      <div><b>업데이트가 바로 반영되지 않을 때</b><br>앱을 완전히 종료한 뒤 다시 실행하세요. 최근 앱 목록에서 해당 앱을 위로 밀어 닫아 주세요. 홈 버튼만 누르면 백그라운드에서 계속 실행됩니다.</div>
+    </div>
+  </div>
+
+  <div class="section-header">4. 공통 주의사항</div>
+
+  <div class="card">
+    <div class="alert danger">
+      <span class="al-icon">⚠️</span>
+      <div><b>데이터 보호 — 반드시 지켜 주세요</b><br>브라우저 데이터(캐시·사이트 데이터)를 삭제하면 기기 내 저장 데이터가 <b>함께 지워집니다.</b> 정기 백업을 생활화하세요.</div>
+    </div>
+    <div class="alert warn">
+      <span class="al-icon">🔥</span>
+      <div><b>학년마다 제목(타이틀)을 다르게 설정하세요</b><br>제목이 같으면 백업 파일명이 똑같아져 기존 데이터가 덮어써져 영구 삭제될 수 있습니다.</div>
+    </div>
+    <div class="alert tip">
+      <span class="al-icon">📁</span>
+      <div><b>안드로이드 다운로드 폴더 안내</b><br>파일은 자동으로 [다운로드] 폴더에 저장됩니다. [내 파일] 앱에서 전용 폴더(예: '태하관백업')를 만들어 정기적으로 정리하세요.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- 페이지 3: 프로그램별 설명 -->
+<!-- ══════════════════════════════════════ -->
+<div class="page" id="page-programs">
+
+  <!-- 자습실 출석부 -->
+  <div id="prog1">
+    <div class="home-banner" style="background:linear-gradient(135deg,#1e3a8a,#2563eb)">
+      <h2>📋 자습실 출석부</h2>
+      <p>야간 자습 1·2·3교시 상세 출결 관리<br>좌석 배치도 위에서 색상으로 구분</p>
+    </div>
+
+    <div class="section-header">시작 준비</div>
+    <div class="card">
+      <div class="sub-title">제목(타이틀) 변경 — 가장 먼저!</div>
+      <p class="minor mb8">화면 상단 가운데 큰 글씨(예: "태하관 자습실 ✏️")를 가볍게 누르면 이름 변경 창이 열립니다.</p>
+      <div class="alert danger">
+        <span class="al-icon">🔥</span>
+        <div><b>학년마다 제목을 다르게 설정하세요</b><br>입력한 제목이 백업 엑셀 파일명에 들어갑니다. 같으면 파일이 덮어써져 데이터가 영구 삭제됩니다.<br>예) <span class="hi-green">1학년_출결기록 / 2학년_출결기록</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="sub-title">배치도 로드 vs 당일 출석부 연동</div>
+      <table class="tbl">
+        <tr><th>🔄 배치도 로드</th><th>📊 당일 출석부 연동</th></tr>
+        <tr><td>학기 초 또는 자리 변경 시 <b>1회만</b></td><td>매일 자습 시작 전 1회</td></tr>
+        <tr><td>좌석 배열·번호 등록</td><td>당일 귀가·외출·교내활동 명단</td></tr>
+        <tr><td>기기에 영구 보관</td><td>파일명 8자리 날짜 자동 인식</td></tr>
+      </table>
+      <div class="alert tip">
+        <span class="al-icon">💡</span>
+        <div>파일명 뒤에 <b>20260604</b> 처럼 8자리 숫자가 있으면 날짜를 <span class="hi-green">초록색</span>으로 표시해 정상 연동 여부를 한눈에 확인할 수 있습니다.<br>예시: 기숙사일지20260604</div>
+      </div>
+    </div>
+
+    <div class="section-header">좌석 상태 수동 변경</div>
+    <div class="card">
+      <div class="sub-title">교시 전환</div>
+      <p class="minor mb8">화면 오른쪽 위 <span class="hi">[1교시] [2교시] [3교시]</span> 탭으로 교시를 전환합니다.</p>
+      <div class="divider"></div>
+      <div class="sub-title">전 교시 일괄 적용 상태</div>
+      <p class="minor mb8">선택 즉시 나머지 교시까지 자동으로 같은 상태가 됩니다.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;">
+        <span class="badge badge-red">조퇴</span><span class="badge badge-red">귀가</span>
+        <span class="badge badge-red">결석</span><span class="badge badge-red">미입사</span>
+        <span class="badge badge-red">명령퇴사</span><span class="badge badge-red">자진퇴사</span>
+      </div>
+      <div class="divider"></div>
+      <div class="sub-title">해당 교시만 적용 상태</div>
+      <p class="minor mb8">선택한 교시에만 적용, 나머지 교시는 원래 상태 유지</p>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;">
+        <span class="badge badge-blue">자습중</span><span class="badge badge-blue">외출</span>
+        <span class="badge badge-yellow">병결</span><span class="badge badge-blue">교내활동</span>
+        <span class="badge badge-blue">도서관</span><span class="badge badge-yellow">쉼터</span>
+        <span class="badge badge-purple">자승가강</span><span class="badge badge-purple">상담</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="sub-title">좌석 색상으로 상태 읽기</div>
+      <table class="tbl">
+        <tr><th>색상</th><th>상태</th><th>적용 방식</th></tr>
+        <tr><td><span class="color-dot" style="background:#22c55e"></span></td><td>자습중</td><td>정상 출석</td></tr>
+        <tr><td><span class="color-dot" style="background:#ef4444"></span></td><td>조퇴·귀가·결석 등</td><td>전 교시 일괄</td></tr>
+        <tr><td><span class="color-dot" style="background:#eab308"></span></td><td>병결·쉼터</td><td>해당 교시만</td></tr>
+        <tr><td><span class="color-dot" style="background:#3b82f6"></span></td><td>교내활동·외출·도서관</td><td>해당 교시만</td></tr>
+        <tr><td><span class="color-dot" style="background:#8b5cf6"></span></td><td>상담·자승가강</td><td>해당 교시만</td></tr>
+      </table>
+      <div class="alert warn">
+        <span class="al-icon">⚠️</span>
+        <div><b>중복 신청 감지</b> — 같은 교시에 외출과 교내활동을 동시에 신청하면 <b>분홍색 테두리 깜빡임</b>과 "중복신청" 표시가 나타납니다. 좌석을 눌러 올바른 상태로 바꿔 주세요.</div>
+      </div>
+      <div class="alert warn">
+        <span class="al-icon">⏰</span>
+        <div><b>자동 초기화</b> — 모든 기록은 <b>다음 날 오전 9시 이후</b> 프로그램을 켜거나 새로고침하면 자동 초기화됩니다. 9시 이전 데이터가 필요하면 전날 밤 백업을 완료해 두세요.</div>
+      </div>
+    </div>
+
+    <div class="section-header">내보내기 & 백업</div>
+    <div class="card">
+      <ul class="checklist">
+        <li><span><span class="hi-blue">📤 3교시 출결 내보내기</span> — 최종 부재 인원만 추출해 카카오톡으로 전송</span></li>
+        <li><span><span class="hi">🗓️ 과거 기록</span> — 연도별 백업 내보내기와 백업 파일 불러오기(복원)</span></li>
+      </ul>
+    </div>
+
+    <div class="card" style="background:#f0fdf4;border-color:#86efac;">
+      <div class="card-title"><div class="icon" style="background:#dcfce7;">✅</div>권장 일일 운영 절차</div>
+      <ol class="steps">
+        <li><span class="step-num">①</span><span>자습 시작 전: 당일 출석부 엑셀 연동</span></li>
+        <li><span class="step-num">②</span><span>3교시 완료 후: [📤 3교시 출결 내보내기]로 부재자 명단 전송</span></li>
+        <li><span class="step-num">③</span><span>자습 종료 후: [🗓️ 과거 기록] → [📥 백업 내보내기] 실행</span></li>
+        <li><span class="step-num">④</span><span>주 1회: 다운로드 폴더 파일을 전용 백업 폴더로 정리</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="divider" style="margin:24px 0;border-top:3px dashed #e2e8f0;"></div>
+
+  <!-- 아침 점호 -->
+  <div id="prog2">
+    <div class="home-banner" style="background:linear-gradient(135deg,#14532d,#16a34a)">
+      <h2>🌅 기숙사 아침 점호</h2>
+      <p>학번 입력으로 출석 체크<br>지각·불참 자동 분류</p>
+    </div>
+
+    <div class="section-header">시작 준비</div>
+    <div class="card">
+      <ol class="steps">
+        <li><span class="step-num">1</span><span><span class="hi">[📁 당일 명단 등록]</span>을 눌러 학생 명단 엑셀 파일을 등록합니다.<br><span class="minor">예시 파일명: 기숙사일지20260604</span></span></li>
+        <li><span class="step-num">2</span><span><span class="hi">[⏰ 기준 시간 설정]</span>을 눌러 지각·불참 처리 기준 시각을 설정합니다.</span></li>
+      </ol>
+      <div class="alert warn">
+        <span class="al-icon">❌</span>
+        <div><b>명단을 읽지 못한다면</b><br>엑셀의 시트 이름과 학번·이름·호실 열 구조가 맞는지 확인하세요.</div>
+      </div>
+    </div>
+
+    <div class="section-header">점호 진행</div>
+    <div class="card">
+      <p class="minor mb8">학생이 키패드로 <span class="hi">자신의 학번을 입력하고 [Enter]</span>를 누르면 출석 처리됩니다.</p>
+      <table class="tbl">
+        <tr><th>버튼</th><th>기능</th></tr>
+        <tr><td>[지우기]</td><td>잘못 입력한 숫자 삭제</td></tr>
+        <tr><td>[Enter] (초록)</td><td>입력한 학번 출석 처리</td></tr>
+      </table>
+      <p class="minor mt8">기준 시간을 넘었으면 자동으로 <span class="badge badge-yellow">지각</span> 또는 <span class="badge badge-red">불참</span>으로 분류됩니다.</p>
+    </div>
+
+    <div class="section-header">점호 종료 & 기록 관리</div>
+    <div class="card">
+      <ul class="checklist">
+        <li><span><span class="hi">[📊 당일 점호 종료]</span> — 총원·부재 인원, 지각자·불참자 명단 표시</span></li>
+        <li><span><span class="hi">[🗂️ 기록/백업 관리]</span> — 날짜별 기록 확인, 엑셀 백업·복원</span></li>
+        <li><span><span class="hi">[📤 동기화 내보내기] / [📥 동기화 가져오기]</span> — 여러 기기 간 데이터 공유</span></li>
+      </ul>
+      <div class="alert tip">
+        <span class="al-icon">💡</span>
+        <div>같은 날 여러 번 저장한다면 <b>타임스탬프 방식</b>이 파일이 겹치지 않아 안전합니다.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider" style="margin:24px 0;border-top:3px dashed #e2e8f0;"></div>
+
+  <!-- 심야 자습 -->
+  <div id="prog3">
+    <div class="home-banner" style="background:linear-gradient(135deg,#4c1d95,#7c3aed)">
+      <h2>🌙 심야 자습 출석부</h2>
+      <p>좌석 터치로 출석/부재만 빠르게<br>자습실 출석부의 단순 버전</p>
+    </div>
+
+    <div class="section-header">사용 방법</div>
+    <div class="card">
+      <ol class="steps">
+        <li><span class="step-num">1</span><span><span class="hi">[🔄 배치도]</span> 버튼으로 좌석 배치도 엑셀을 처음 한 번 등록합니다. (이후 계속 유지)</span></li>
+        <li><span class="step-num">2</span><span>상단 제목을 눌러 <span class="hi">자습실 이름</span>을 학년에 맞게 바꿉니다.</span></li>
+        <li><span class="step-num">3</span><span>출석한 학생의 좌석을 누르면 <span class="hi-green">초록색(출석)</span>으로 바뀝니다. 다시 누르면 흰색(부재)으로 돌아갑니다.</span></li>
+        <li><span class="step-num">4</span><span>상단에 <span class="hi">총원 · 출석 · 부재</span> 인원이 실시간 집계됩니다.</span></li>
+      </ol>
+    </div>
+    <div class="card">
+      <div class="sub-title">자습실 출석부와의 차이</div>
+      <table class="tbl">
+        <tr><th>자습실 출석부</th><th>심야 자습 출석부</th></tr>
+        <tr><td>교시별·사유별 상세 출결</td><td>출석/부재만 빠르게</td></tr>
+        <tr><td>조퇴·외출·상담 등 색상 구분</td><td>점호처럼 인원만 확인</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="divider" style="margin:24px 0;border-top:3px dashed #e2e8f0;"></div>
+
+  <!-- 전자기기 관리 -->
+  <div id="prog4">
+    <div class="home-banner" style="background:linear-gradient(135deg,#7c2d12,#ea580c)">
+      <h2>📱 전자기기 관리</h2>
+      <p>핸드폰·태블릿·노트북 제출 여부<br>학년별 체크 — 미제출만 빠르게 표시</p>
+    </div>
+
+    <div class="section-header">처음 한 번만 하는 준비</div>
+    <div class="card">
+      <ol class="steps">
+        <li><span class="step-num">1</span><span><span class="hi">[☰ 메뉴] → [📁 학생 명단 등록]</span>으로 방배정 엑셀을 등록합니다.<br><span class="minor">예: 남학생방배정.xlsx</span></span></li>
+        <li><span class="step-num">2</span><span><span class="hi">[🛠️ 보유설정]</span>으로 핸드폰·태블릿·노트북을 가지고 있지 않은 학생을 표시합니다. 해당 칸을 눌러 <span class="hi-green">미보유(초록)</span>로 바꾸면 됩니다.</span></li>
+      </ol>
+      <div class="alert tip">
+        <span class="al-icon">💡</span>
+        <div>학생 명단과 기기 보유 설정은 자동 저장됩니다. 학생 변동이 있을 때만 다시 수정하세요.</div>
+      </div>
+    </div>
+
+    <div class="section-header">매일 하는 작업</div>
+    <div class="card">
+      <ol class="steps">
+        <li><span class="step-num">1</span><span><span class="hi">[📅 일지 연동]</span>으로 그날의 기숙사 일지 엑셀을 연동합니다. 퇴사·귀가자가 자동 음영 처리됩니다.</span></li>
+        <li><span class="step-num">2</span><span>상단 <span class="hi">[1학년] [2학년] [3학년] 탭</span>으로 학년을 전환하며 체크합니다.</span></li>
+        <li><span class="step-num">3</span><span><span class="hi-red">미제출 기기만 눌러 빨강으로 표시</span>합니다. 나머지는 그대로 두면 제출 완료 처리됩니다.</span></li>
+      </ol>
+
+      <div class="divider"></div>
+      <div class="sub-title">기기 칸 색상 의미</div>
+      <table class="tbl">
+        <tr><th>색상</th><th>상태</th><th>의미</th></tr>
+        <tr><td><span class="color-dot" style="background:#94a3b8"></span>회색</td><td>보유 기기</td><td>제출 완료 (기본값)</td></tr>
+        <tr><td><span class="color-dot" style="background:#22c55e"></span>초록</td><td>미보유</td><td>해당 기기가 없는 학생</td></tr>
+        <tr><td><span class="color-dot" style="background:#ef4444"></span>빨강</td><td>미제출</td><td>제출하지 않은 기기</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="sub-title">미제출 현황 & 백업</div>
+      <ul class="checklist">
+        <li><span><span class="hi">🚨 미제출 현황</span> — 미제출 학생과 기기 대수 합계 표시</span></li>
+        <li><span><span class="hi">📥 미제출 명단 엑셀 저장</span> — 미제출자 명단 내보내기</span></li>
+        <li><span><span class="hi">📅 날짜별 미제출 기록</span> — 체크할 때마다 자동 저장</span></li>
+        <li><span><span class="hi">💾 백업 / 📂 복원</span> — 명단·보유설정·모든 기록을 파일 하나로 저장</span></li>
+      </ul>
+      <div class="alert warn">
+        <span class="al-icon">⏰</span>
+        <div><b>자동 초기화</b> — 미제출 체크는 매일 <b>오전 9시</b>에 자동 초기화됩니다. (명단과 보유설정은 유지)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider" style="margin:24px 0;border-top:3px dashed #e2e8f0;"></div>
+
+  <!-- 퇴실 체크아웃 -->
+  <div id="prog5">
+    <div class="home-banner" style="background:linear-gradient(135deg,#831843,#db2777)">
+      <h2>🚪 퇴실 체크아웃</h2>
+      <p>호실별 상·벌점, 정리정돈 등급<br>귀가·퇴사·미입사 한 화면 관리</p>
+    </div>
+
+    <div class="section-header">처음 설정</div>
+    <div class="card">
+      <p class="minor mb8">오른쪽 위 <span class="hi">[⚙️ 설정·데이터]</span>를 눌러 기본 설정을 합니다.</p>
+      <ul class="checklist">
+        <li><span><span class="hi">📋 방배정 명단 등록</span> — 남학생방배정.xlsx(서현관은 여학생방배정.xlsx) 등록. 이후 호실·학생 구성이 교체되며 영구 유지</span></li>
+        <li><span><span class="hi">🏢 담당 층·탭 설정</span> — 담당하는 2개 층을 선택하고 탭 이름 설정<br><span class="minor">예: 2층, 3층</span></span></li>
+      </ul>
+    </div>
+
+    <div class="section-header">호실 상·벌점 & 정리정돈</div>
+    <div class="card">
+      <p class="minor mb8">호실 카드 제목(예: "201호")을 누르면 호실 전체 벌점과 정리정돈 우수 등급 입력 창이 열립니다.</p>
+      <table class="tbl">
+        <tr><th>항목</th><th>내용</th></tr>
+        <tr><td>호실 전체 벌점</td><td>정리불량·슬리퍼 미정리·미소등 등 전 인원 공통</td></tr>
+        <tr><td>정리정돈 우수 등급</td><td>상(3점)·중(2점)·하(1점) 선택 — 상점 누적</td></tr>
+        <tr><td>개인 벌점</td><td>개별 학생을 눌러 그 학생에게만 적용</td></tr>
+      </table>
+      <div class="alert tip">
+        <span class="al-icon">💡</span>
+        <div>귀가·퇴사·미입사 학생은 음영 처리되어 호실 전체 벌점 입력 시 자동으로 제외됩니다.</div>
+      </div>
+    </div>
+
+    <div class="section-header">귀가·퇴사·미입사 관리</div>
+    <div class="card">
+      <p class="minor mb8"><span class="hi">[🚪 귀가·퇴사]</span> 버튼에서 그날 체크 제외 학생을 관리합니다.</p>
+      <ul class="checklist">
+        <li><span>명단 텍스트 붙여넣기 → "귀가·퇴사·명령퇴사·미입사" 키워드를 자동 인식해 학번/이름으로 매칭</span></li>
+        <li><span>상단 <span class="hi">일지 연동 버튼</span>에서 '귀가외출교내활동' 엑셀을 연동하면 자동 반영, 이후 개별 수정 가능</span></li>
+      </ul>
+    </div>
+
+    <div class="section-header">집계 & 백업</div>
+    <div class="card">
+      <ul class="checklist">
+        <li><span><span class="hi">📊 오늘 집계</span> — 오늘 체크아웃 결과 정리, [📋 복사]로 내용 복사</span></li>
+        <li><span><span class="hi">🏅 상점 집계</span> — 기간(시작일~종료일) 내 정리정돈 우수 등급 합산 순위</span></li>
+        <li><span><span class="hi">📝 당일 특이사항 메모</span> — 전달 사항 자유롭게 입력, 자동 저장</span></li>
+        <li><span><span class="hi">💾 전체 백업(1개) / 📂 복원</span> — 모든 날짜 상·벌점·등급·메모를 파일 하나로 저장</span></li>
+        <li><span><span class="hi">🗓️ 기록 달력</span> — 파란 점이 있는 날은 기록 있는 날. 날짜 누르면 그날 기록으로 이동</span></li>
+      </ul>
+      <div class="alert warn">
+        <span class="al-icon">⏰</span>
+        <div><b>자동 초기화</b> — 새 날이 시작되면(늦어도 오전 11시 이전) 당일 빈 시트로 자동 전환됩니다. 전날 기록은 영구 보관됩니다.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- 페이지 4: 매일 체크리스트 -->
+<!-- ══════════════════════════════════════ -->
+<div class="page" id="page-checklist">
+
+  <div class="home-banner" style="background:linear-gradient(135deg,#134e4a,#0f766e)">
+    <h2>✅ 매일 체크리스트</h2>
+    <p>매일 반드시 해야 할 작업 요약</p>
+  </div>
+
+  <div class="section-header">자습실 출석부 / 심야 자습</div>
+  <div class="card" style="border-left:4px solid var(--blue)">
+    <ol class="steps">
+      <li><span class="step-num">1</span><span>자습 시작 전: <span class="hi">당일 출석부 엑셀 연동</span></span></li>
+      <li><span class="step-num">2</span><span>자습 중: 좌석 상태 체크</span></li>
+      <li><span class="step-num">3</span><span>3교시 후: <span class="hi">[📤 3교시 출결 내보내기]</span>로 부재자 명단 전송</span></li>
+      <li><span class="step-num">4</span><span>종료 후: <span class="hi">[🗓️ 과거 기록] → [📥 백업]</span> 실행</span></li>
+    </ol>
+  </div>
+
+  <div class="section-header">아침 점호</div>
+  <div class="card" style="border-left:4px solid var(--green)">
+    <ol class="steps">
+      <li><span class="step-num">1</span><span>당일 명단 등록</span></li>
+      <li><span class="step-num">2</span><span>데이터 동기화</span></li>
+      <li><span class="step-num">3</span><span><span class="hi">[📊 당일 점호 종료]</span>로 집계</span></li>
+      <li><span class="step-num">4</span><span>백업 실행</span></li>
+    </ol>
+  </div>
+
+  <div class="section-header">전자기기 관리</div>
+  <div class="card" style="border-left:4px solid var(--orange)">
+    <ol class="steps">
+      <li><span class="step-num">1</span><span>일지 연동</span></li>
+      <li><span class="step-num">2</span><span>학년별 미제출만 빨강으로 체크</span></li>
+      <li><span class="step-num">3</span><span>미제출 현황 확인</span></li>
+      <li><span class="step-num">4</span><span>백업 실행</span></li>
+    </ol>
+  </div>
+
+  <div class="section-header">퇴실 체크아웃</div>
+  <div class="card" style="border-left:4px solid #db2777">
+    <ol class="steps">
+      <li><span class="step-num">1</span><span>일지 연동 / 제외 학생 등록</span></li>
+      <li><span class="step-num">2</span><span>호실별 상·벌점·등급 입력</span></li>
+      <li><span class="step-num">3</span><span><span class="hi">[📊 오늘 집계]</span> 확인</span></li>
+      <li><span class="step-num">4</span><span>메모 작성</span></li>
+    </ol>
+  </div>
+
+  <div class="section-header">공통 주간 작업</div>
+  <div class="card" style="background:#f0fdf4;border-color:#86efac;">
+    <ul class="checklist">
+      <li><span>주 1회 다운로드 폴더의 파일을 전용 백업 폴더로 정리</span></li>
+      <li><span>백업 파일 안전한 장소에 보관 (개인 드라이브 또는 USB)</span></li>
+    </ul>
+  </div>
+
+  <div class="section-header">문의 및 업데이트</div>
+  <div class="card">
+    <p style="font-size:14px;line-height:1.7;color:#374151;">
+      이 프로그램들은 초기 버전으로, 현장에서 사용하며 발견한 불편함이나 개선 의견을 반영해 계속 업데이트됩니다.<br><br>
+      <span class="hi">오류나 건의사항이 있으면 담당 선생님에게 전달해 주세요.</span>
+    </p>
+    <div class="alert tip" style="margin-top:10px;">
+      <span class="al-icon">🔄</span>
+      <div>업데이트는 선생님이 별도로 설치할 필요 없이, 앱을 다시 열면 <b>자동으로 적용</b>됩니다.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── 하단 탭바 ── -->
+<nav class="tab-bar">
+  <button class="tab-item active" onclick="showPage('home', this)">
+    <span class="tab-icon">🏠</span>
+    <span class="tab-label">홈</span>
+  </button>
+  <button class="tab-item" onclick="showPage('common', this)">
+    <span class="tab-icon">📡</span>
+    <span class="tab-label">공통안내</span>
+  </button>
+  <button class="tab-item" onclick="showPage('programs', this)">
+    <span class="tab-icon">📱</span>
+    <span class="tab-label">프로그램</span>
+  </button>
+  <button class="tab-item" onclick="showPage('checklist', this)">
+    <span class="tab-icon">✅</span>
+    <span class="tab-label">체크리스트</span>
+  </button>
+</nav>
+
+<script>
+  function showPage(id, btn) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    btn.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function goProgPage(anchorId) {
+    // 프로그램 탭으로 이동 후 해당 프로그램으로 스크롤
+    const tabBtns = document.querySelectorAll('.tab-item');
+    showPage('programs', tabBtns[2]);
+    setTimeout(() => {
+      const el = document.getElementById(anchorId);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  }
+
+  // ===== 서비스워커 등록 (PWA 오프라인 지원) =====
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('manual-sw.js')
+        .then(reg => console.log('매뉴얼 SW 등록 성공:', reg.scope))
+        .catch(err => console.log('매뉴얼 SW 등록 실패:', err));
+    });
+  }
+  // ===== 서비스워커 등록 끝 =====
+</script>
+</body>
+</html>

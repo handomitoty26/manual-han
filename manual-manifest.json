@@ -1,0 +1,25 @@
+{
+  "name": "기숙사 관리 프로그램 매뉴얼",
+  "short_name": "기숙사 매뉴얼",
+  "description": "한성과학고 기숙사 관리 프로그램 통합 사용 매뉴얼",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1a2744",
+  "theme_color": "#1a2744",
+  "lang": "ko",
+  "icons": [
+    {
+      "src": "manual-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "manual-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
