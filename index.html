@@ -31,6 +31,8 @@
     --lpurple:#ede9fe;
     --yellow: #ca8a04;
     --lyellow:#fef9c3;
+    --teal:   #0891b2;
+    --lteal:  #ccfbf1;
     --gray:   #64748b;
     --lgray:  #f1f5f9;
     --white:  #ffffff;
@@ -60,6 +62,27 @@
     top: 0;
     z-index: 100;
     box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+  }
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .header-logo {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #ffffff;
+    padding: 4px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.4);
+    object-fit: contain;
+    display: block;
+  }
+  .header-text {
+    flex: 1;
+    min-width: 0;
   }
   .app-header h1 {
     font-size: 17px;
@@ -169,7 +192,9 @@
   .alert.danger{ background: var(--lred);    border-left: 3px solid var(--red); }
   .alert.good  { background: var(--lgreen);  border-left: 3px solid var(--green); }
   .alert.purple{ background: var(--lpurple); border-left: 3px solid var(--purple); }
+  .alert.teal  { background: var(--lteal);   border-left: 3px solid var(--teal); }
   .alert b { font-weight: 700; }
+  .alert div > div { margin-top: 4px; }
 
   /* ── 순서 목록 ── */
   .steps { list-style: none; margin-bottom: 10px; }
@@ -226,6 +251,110 @@
   .prog-desc { font-size: 12px; color: var(--gray); margin-top: 2px; }
   .prog-arrow { color: #cbd5e1; font-size: 18px; }
 
+  /* ── 프로그램 선택 그리드 (프로그램 탭 진입 시) ── */
+  .prog-select-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .prog-select-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 16px 10px 14px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .prog-select-card:active { transform: scale(0.96); }
+  .prog-select-num {
+    font-size: 10px; font-weight: 700; color: #cbd5e1;
+    letter-spacing: 0.5px; margin-bottom: 6px;
+  }
+  .prog-select-icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 25px; margin: 0 auto 8px;
+  }
+  .prog-select-name { font-size: 13px; font-weight: 700; color: var(--navy); line-height: 1.3; }
+  .prog-select-desc { font-size: 10.5px; color: var(--gray); margin-top: 4px; line-height: 1.4; }
+
+  /* ── 프로그램 상세 ── */
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--lgray); color: var(--navy);
+    font-weight: 700; font-size: 13px;
+    padding: 9px 16px; border-radius: 20px;
+    border: none; margin-bottom: 14px; cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .back-btn:active { transform: scale(0.96); }
+
+  .prog-tag {
+    font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
+    opacity: 0.75; margin-bottom: 6px;
+  }
+
+  .subnav {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-bottom: 18px;
+  }
+  .subnav button {
+    background: var(--lblue); color: var(--blue);
+    border: none; border-radius: 14px;
+    font-size: 11.5px; font-weight: 700;
+    padding: 6px 11px; cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .subnav button:active { transform: scale(0.95); }
+
+  /* ── 코드/미리보기 박스 ── */
+  .code-preview {
+    background: #0f172a; color: #e2e8f0;
+    border-radius: 10px; padding: 13px 15px;
+    font-family: 'SFMono-Regular', Consolas, Menlo, monospace;
+    font-size: 11.5px; line-height: 1.75;
+    white-space: pre-wrap; margin-bottom: 10px;
+    overflow-x: auto;
+  }
+
+  /* ── 화면 모형(목업) ── */
+  .mockup {
+    background: #f8fafc; border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px; margin-bottom: 10px;
+  }
+  .mockup-label { font-size: 10.5px; color: var(--gray); margin-bottom: 4px; font-weight: 700; }
+  .mockup-row { margin-bottom: 9px; }
+  .mockup-row:last-child { margin-bottom: 0; }
+  .mockup-input {
+    background: white; border: 1px solid var(--border); border-radius: 8px;
+    padding: 9px 11px; font-size: 12px; color: #94a3b8;
+  }
+  .mockup-btn {
+    background: var(--blue); color: white; text-align: center;
+    border-radius: 8px; padding: 10px; font-size: 12.5px; font-weight: 700;
+  }
+  .mockup-btn.green { background: var(--green); }
+  .mockup-btn.gray  { background: #94a3b8; }
+  .mockup-check {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--text);
+    background: white; border: 1px solid var(--border);
+    border-radius: 8px; padding: 9px 11px;
+  }
+  .mockup-checkbox {
+    width: 16px; height: 16px; border-radius: 4px;
+    border: 2px solid #cbd5e1; flex-shrink: 0;
+  }
+  .mockup-pill-row { display: flex; gap: 6px; }
+  .mockup-pill {
+    flex: 1; text-align: center; font-size: 11.5px; font-weight: 700;
+    padding: 8px; border-radius: 8px;
+    background: white; border: 1px solid var(--border); color: var(--gray);
+  }
+  .mockup-pill.on { background: var(--lblue); color: var(--blue); border-color: var(--blue); }
+
   /* ── 컬러 뱃지 ── */
   .badge {
     display: inline-block;
@@ -240,6 +369,7 @@
   .badge-purple { background: var(--lpurple); color: var(--purple); }
   .badge-yellow { background: var(--lyellow); color: var(--yellow); }
   .badge-gray   { background: var(--lgray);   color: var(--gray); }
+  .badge-teal   { background: var(--lteal);   color: var(--teal); }
 
   /* ── 색상 상태 표 ── */
   .color-dot {
@@ -250,6 +380,12 @@
     vertical-align: middle;
     border: 1px solid rgba(0,0,0,0.1);
   }
+
+  /* ── 테마 색상 칩 ── */
+  .theme-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 4px; }
+  .theme-chip { display: flex; flex-direction: column; align-items: center; gap: 5px; width: 64px; }
+  .theme-swatch { width: 30px; height: 30px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 0 1px var(--border); }
+  .theme-chip span { font-size: 10px; color: var(--gray); text-align: center; line-height: 1.3; }
 
   /* ── 체크리스트 ── */
   .checklist { list-style: none; }
@@ -274,6 +410,7 @@
   .hi-red    { font-weight: 700; color: var(--red); }
   .hi-green  { font-weight: 700; color: var(--green); }
   .hi-orange { font-weight: 700; color: var(--orange); }
+  .hi-teal   { font-weight: 700; color: var(--teal); }
 
   /* ── 구분선 ── */
   .divider { height: 1px; background: var(--border); margin: 14px 0; }
@@ -299,6 +436,23 @@
   .home-banner h2 { font-size: 18px; font-weight: 900; margin-bottom: 4px; }
   .home-banner p  { font-size: 12px; opacity: 0.8; line-height: 1.5; }
 
+  /* ── 프로그램 개요 목록 (홈) ── */
+  .overview-list { list-style: none; }
+  .overview-list li {
+    display: flex; gap: 10px; align-items: flex-start;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--lgray);
+    font-size: 13.5px; line-height: 1.55;
+  }
+  .overview-list li:last-child { border-bottom: none; }
+  .overview-num {
+    flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
+    background: var(--lblue); color: var(--blue);
+    font-size: 11px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 1px;
+  }
+
   /* ── 반응형 여백 ── */
   @media (min-width: 600px) {
     body { max-width: 600px; margin: 0 auto; }
@@ -321,9 +475,14 @@
 
 <!-- ── 상단 헤더 ── -->
 <div class="app-header">
-  <div class="header-badge">한성과학고 기숙사</div>
-  <h1>기숙사 관리 프로그램 매뉴얼</h1>
-  <p>사감 선생님용 · Version 1.0</p>
+  <div class="header-top">
+    <div class="header-text">
+      <div class="header-badge">한성과학고 기숙사</div>
+      <h1>기숙사 관리 프로그램 매뉴얼</h1>
+      <p>사감 선생님용 · Version 2.0</p>
+    </div>
+  <img class="header-logo" src="data:image/webp;base64,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" alt="한성과학고 엠블럼">
+  </div>
 </div>
 
 <!-- ══════════════════════════════════════ -->
@@ -333,29 +492,38 @@
 
   <div class="home-banner">
     <h2>통합 사용 매뉴얼</h2>
-    <p>자습실 출석부 · 아침 점호 · 심야 자습<br>전자기기 관리 · 퇴실 체크아웃</p>
+    <p>자습실 출석부 · 아침 점호 · 심야 자습 출석부<br>전자기기 관리 · 퇴실 체크아웃 · 기숙사 관리일지</p>
   </div>
 
   <div class="section-header">들어가며</div>
   <div class="card">
     <div style="font-size:14px; line-height:1.7; color:#374151;">
-      태하관 기숙사 관리 프로그램은 남·여 기숙사의 학생 출결과 생활지도를 사감 선생님 여러 분이 함께, 더 정확하고 빠르게 처리하기 위해 만든 프로그램 모음입니다.<br><br>
-      <span class="hi">태블릿 화면을 손가락으로 터치하는 것만으로 출결을 기록</span>하고, 그 결과를 <span class="hi">엑셀 파일과 카카오톡 명단으로 바로 내보낼 수 있도록</span> 설계되었습니다.
+      기숙사 관리 프로그램은 남·여 기숙사의 학생 출결과 생활지도를 정확하고 빠르게 처리하도록 만든 도구 모음입니다.<br><br>
+      <span class="hi">태블릿 화면을 손가락으로 터치하는 것만으로 출결을 기록</span>하고, 그 결과를 엑셀 파일이나 카카오톡 명단으로 바로 내보낼 수 있습니다. 모든 기록은 기기에 자동 저장되며, <span class="hi-blue">구글 드라이브 자동 백업</span>으로 한 번 더 안전하게 보관됩니다. 처음 한 번만 설정해 두면, 매일의 사용은 화면을 몇 번 누르는 것으로 끝납니다.
     </div>
   </div>
 
-  <div class="section-header">주요 특징</div>
+  <div class="section-header">이 매뉴얼 앱의 구성</div>
   <div class="card">
-    <ul class="checklist">
-      <li><span><b>설치가 필요 없습니다.</b> 링크에 접속만 하면 바로 사용, 원하면 홈 화면에 설치 가능</span></li>
-      <li><span><b>태블릿에 최적화.</b> 갤럭시 탭 S9 FE+ 세로 화면 기준, PC 크롬에서도 동일하게 사용 가능</span></li>
-      <li><span><b>데이터 자동 저장.</b> 명단·배치도·설정은 한 번 등록하면 다음에 켜도 유지</span></li>
-      <li><span><b>엑셀 백업·복원 지원.</b> 기기 교체·초기화 시 백업 파일로 전체 복원 가능</span></li>
-      <li><span><b>자동 업데이트.</b> 선생님이 별도 설치 없이 다음 실행 시 자동 반영</span></li>
+    <p style="font-size:13.5px;line-height:1.7;color:#374151;">
+      <span class="hi">공통안내</span> 탭에는 모든 프로그램에 공통으로 해당하는 내용(설치·업데이트·백업·메모·주의사항)을 담았습니다. 처음 한 번만 읽어 두시면 이후 각 프로그램을 훨씬 쉽게 사용할 수 있습니다.<br><br>
+      <span class="hi">프로그램</span> 탭에서는 6개 프로그램 중 하나를 선택해 실제 사용 화면처럼 기능을 차례대로 확인할 수 있습니다.
+    </p>
+  </div>
+
+  <div class="section-header">📦 여섯 가지 프로그램</div>
+  <div class="card">
+    <ul class="overview-list">
+      <li><span class="overview-num">1</span><span><b class="hi-blue">자습실 출석부</b> — 야간 자습 1·2·3교시의 상세 출결을 좌석 배치도 위에서 관리</span></li>
+      <li><span class="overview-num">2</span><span><b class="hi-blue">아침 점호</b> — 학번을 입력해 출석을 체크하고 지각·불참을 자동 분류</span></li>
+      <li><span class="overview-num">3</span><span><b class="hi-blue">심야 자습 출석부</b> — 좌석을 눌러 출석/부재만 빠르게 체크</span></li>
+      <li><span class="overview-num">4</span><span><b class="hi-blue">전자기기 관리</b> — 핸드폰·태블릿·노트북 제출 여부를 학년별로 체크</span></li>
+      <li><span class="overview-num">5</span><span><b class="hi-blue">퇴실 체크아웃</b> — 호실별 상·벌점과 정리정돈 등급, 귀가·퇴사 명단을 관리</span></li>
+      <li><span class="overview-num">6</span><span><b class="hi-blue">기숙사 관리일지</b> — 근무일지·상벌점·상담·학사일정·관심학생을 한곳에서 관리</span></li>
     </ul>
   </div>
 
-  <div class="section-header">다섯 가지 프로그램</div>
+  <div class="section-header">프로그램 선택</div>
 
   <div class="prog-card" onclick="goProgPage('prog1')">
     <div class="prog-icon" style="background:#dbeafe;">📋</div>
@@ -369,7 +537,7 @@
   <div class="prog-card" onclick="goProgPage('prog2')">
     <div class="prog-icon" style="background:#dcfce7;">🌅</div>
     <div class="prog-info">
-      <div class="prog-name">기숙사 아침 점호</div>
+      <div class="prog-name">아침 점호</div>
       <div class="prog-desc">학번 입력으로 지각·불참 자동 분류</div>
     </div>
     <div class="prog-arrow">›</div>
@@ -402,447 +570,765 @@
     <div class="prog-arrow">›</div>
   </div>
 
-</div>
+  <div class="prog-card" onclick="goProgPage('prog6')">
+    <div class="prog-icon" style="background:#ccfbf1;">📔</div>
+    <div class="prog-info">
+      <div class="prog-name">기숙사 관리일지</div>
+      <div class="prog-desc">근무일지·상벌점·상담·학사일정·관심학생</div>
+    </div>
+    <div class="prog-arrow">›</div>
+  </div>
 
+</div>
 <!-- ══════════════════════════════════════ -->
 <!-- 페이지 2: 공통 안내 -->
 <!-- ══════════════════════════════════════ -->
 <div class="page" id="page-common">
 
-  <div class="section-header">1. PWA 방식이란?</div>
+  <div class="section-header">1-1. PWA 방식이란?</div>
   <div class="card">
-    <div class="card-title"><div class="icon" style="background:#dbeafe;">🌐</div>PWA 방식 설명</div>
+    <div class="card-title"><div class="icon" style="background:#dbeafe;">🌐</div>웹사이트인데 앱처럼</div>
     <p style="font-size:14px;line-height:1.7;margin-bottom:10px;">
-      이 프로그램들은 모두 <span class="hi">PWA(Progressive Web App)</span> 방식으로 제공됩니다. 웹사이트인데 앱처럼 쓸 수 있는 프로그램입니다.
+      이 프로그램들은 모두 <span class="hi">PWA(Progressive Web App)</span> 방식입니다. 쉽게 말해 웹사이트인데 앱처럼 쓸 수 있는 프로그램입니다. 앱 스토어에서 내려받지 않아도 되고, 인터넷 주소(링크)만 알면 바로 접속해 사용할 수 있습니다. 한 번 홈 화면에 설치하면 일반 앱처럼 아이콘을 눌러 실행합니다.
     </p>
     <div class="alert tip">
       <span class="al-icon">🔗</span>
-      <div>담당 선생님이 카카오톡으로 각 프로그램의 <b>링크(인터넷 주소)</b>를 공유해 드립니다. 받은 링크를 누른 뒤 크롬 브라우저로 열어 홈 화면에 추가하면 앱처럼 사용할 수 있습니다.</div>
+      <div><b>접속 방법</b><br>담당 선생님이 카카오톡으로 각 프로그램의 링크를 공유해 드립니다. 받은 링크를 누른 뒤, 아래 1-2의 안내에 따라 크롬 브라우저로 열어 홈 화면에 추가하면 앱처럼 사용할 수 있습니다.</div>
     </div>
   </div>
 
-  <div class="section-header">2. 앱처럼 설치하기</div>
+  <div class="section-header">1-2. 앱처럼 설치하기</div>
 
   <div class="card">
     <div class="card-title"><div class="icon" style="background:#dcfce7;">📱</div>안드로이드 태블릿 (갤럭시 탭)</div>
     <ol class="steps">
-      <li><span class="step-num">1</span><span>카카오톡에서 공유받은 링크를 누릅니다.</span></li>
-      <li><span class="step-num">2</span><span><span class="hi-red">[다른 브라우저로 열기] 또는 [Chrome으로 열기]</span>를 눌러 반드시 크롬으로 엽니다.</span></li>
-      <li><span class="step-num">3</span><span>주소창 오른쪽 끝 <span class="hi">점 세 개 메뉴(⋮)</span>를 누릅니다.</span></li>
-      <li><span class="step-num">4</span><span>하단 메뉴에서 <span class="hi">[홈 화면에 추가]</span>를 누릅니다.</span></li>
-      <li><span class="step-num">5</span><span><span class="hi">[설치]</span>를 누릅니다.</span></li>
-      <li><span class="step-num">6</span><span>바탕화면 아이콘을 누르면 전체 화면으로 실행됩니다.</span></li>
+      <li><span class="step-num">1</span><span>카카오톡에서 공유받은 링크를 누릅니다. (카카오톡 안의 간이 브라우저가 열립니다.)</span></li>
+      <li><span class="step-num">2</span><span>크롬에서 열리면 주소창 오른쪽 끝의 <span class="hi">점 세 개 메뉴(⋮)</span>를 누릅니다.</span></li>
+      <li><span class="step-num">3</span><span><span class="hi">[홈 화면에 추가] → [설치]</span>를 누릅니다.</span></li>
+      <li><span class="step-num">4</span><span>바탕화면에 생긴 아이콘을 누르면 앱처럼 전체 화면으로 실행됩니다.</span></li>
     </ol>
     <div class="alert warn">
       <span class="al-icon">⚠️</span>
-      <div>카카오톡 안의 간이 브라우저에서는 <b>홈 화면 추가가 되지 않습니다.</b> 반드시 크롬으로 열어 주세요.</div>
+      <div><b>반드시 크롬으로 열어 주세요</b><br>카카오톡 안의 간이 브라우저에서는 홈 화면 추가가 되지 않습니다. 화면 우측 하단의 <b>[다른 브라우저로 열기]</b> 또는 <b>[Chrome으로 열기]</b>를 눌러 크롬으로 다시 열어 주세요.</div>
     </div>
   </div>
 
   <div class="card">
     <div class="card-title"><div class="icon" style="background:#ede9fe;">💻</div>개인 PC (크롬 브라우저)</div>
     <ol class="steps">
-      <li><span class="step-num">1</span><span>크롬 주소창에 프로그램 링크를 복사해 접속합니다.</span></li>
-      <li><span class="step-num">2</span><span>주소창 오른쪽 끝 <span class="hi">설치 아이콘(⤓)</span>을 누르거나, 점 세 개 메뉴 → <span class="hi">[프로그램명/설치]</span>를 선택합니다.</span></li>
-      <li><span class="step-num">3</span><span>설치하면 주소창 없이 독립된 창으로 실행됩니다.</span></li>
+      <li><span class="step-num">1</span><span>크롬 주소창에 프로그램 링크를 입력해 접속합니다.</span></li>
+      <li><span class="step-num">2</span><span>주소창 오른쪽 끝의 <span class="hi">설치 아이콘(⤓ 또는 모니터 모양)</span>을 누르거나, 점 세 개 메뉴(⋮)에서 설치를 선택합니다.</span></li>
+      <li><span class="step-num">3</span><span>설치하면 주소창 없이 독립된 창으로 실행됩니다. (설치하지 않고 즐겨찾기로 사용해도 됩니다.)</span></li>
     </ol>
-    <div class="alert tip">
-      <span class="al-icon">💡</span>
-      <div>설치하지 않고 즐겨찾기로 사용해도 됩니다. PWA로 설치하면 더 깔끔하게 사용할 수 있습니다.</div>
-    </div>
   </div>
 
-  <div class="section-header">3. PWA 주요 특징</div>
+  <div class="section-header">1-3. 자동 업데이트와 화면 특징</div>
   <div class="card">
     <ul class="checklist">
-      <li><span><b>업데이트 자동 적용</b> — 사용자는 아무것도 하지 않아도 됩니다. 다음 실행 시 자동 반영</span></li>
-      <li><span><b>전용 앱 화면</b> — 주소창이 없는 전체 화면으로 열립니다. 프로그램 안의 버튼으로 이동하세요</span></li>
-      <li><span><b>일부 오프라인 사용</b> — 최초 접속 시 인터넷 필요, 이후 일부 기능은 오프라인 사용 가능</span></li>
-      <li><span><b>기기 내 저장</b> — 명단·배치도·설정과 매일의 기록은 그 기기 안에 보관됩니다</span></li>
+      <li><span><b>자동 업데이트</b> — 프로그램이 업데이트되면 선생님은 아무것도 하지 않아도 됩니다. 앱 종료 후 실행하거나 화면을 새로고침하면 최신 내용이 자동으로 반영됩니다.</span></li>
+      <li><span><b>전용 앱 화면</b> — 아이콘으로 실행하면 주소창 없는 전체 화면으로 열립니다. 브라우저 뒤로가기 대신 프로그램 안의 버튼으로 이동하세요.</span></li>
+      <li><span><b>기기 내 자동 저장</b> — 등록한 명단·설정과 매일의 기록은 그 기기 안에 자동 저장됩니다.</span></li>
     </ul>
     <div class="alert warn">
       <span class="al-icon">🔄</span>
-      <div><b>업데이트가 바로 반영되지 않을 때</b><br>앱을 완전히 종료한 뒤 다시 실행하세요. 최근 앱 목록에서 해당 앱을 위로 밀어 닫아 주세요. 홈 버튼만 누르면 백그라운드에서 계속 실행됩니다.</div>
+      <div><b>최신 화면이 바로 보이지 않을 때</b><br>앱을 완전히 종료(최근 앱 목록에서 위로 밀어 닫기)한 뒤 다시 실행하거나, 브라우저 캐시를 삭제하고 다시 접속하면 최신 버전으로 갱신됩니다.</div>
     </div>
   </div>
 
-  <div class="section-header">4. 공통 주의사항</div>
+  <div class="section-header">1-4. 구글 드라이브 자동 백업</div>
+  <div class="card">
+    <div class="card-title"><div class="icon" style="background:#dbeafe;">☁️</div>한 번 연결하면 끝</div>
+    <p style="font-size:14px;line-height:1.7;margin-bottom:10px;">
+      기기에만 저장되던 백업을, 선생님 본인의 구글 드라이브에 자동으로 올려 두는 기능입니다. 태블릿이 고장 나거나 초기화되어도 드라이브의 백업으로 모든 기록을 되살릴 수 있습니다.
+    </p>
+
+    <div class="sub-title">이런 점이 좋습니다</div>
+    <ul class="checklist mb8">
+      <li><span><b>내 계정, 내 드라이브에 저장</b> — 선생님 본인의 구글 계정으로 연결되고, 백업은 본인 드라이브에만 저장됩니다. 다른 사람은 볼 수 없어 개인정보가 보호됩니다.</span></li>
+      <li><span><b>프로그램별 폴더 자동 정리</b> — 백업 폴더는 <span class="hi">'프로그램이름_백업'</span> 형태로 자동 생성됩니다. 폴더 안에는 항상 최신 파일 1개와 날짜별 파일이 보관되고, 정해 둔 기간이 지난 파일은 자동으로 정리됩니다.</span></li>
+      <li><span><b>한 번 켜 두면 끝</b> — '앱을 켤 때 자동 백업'을 켜 두면, 이후에는 프로그램을 실행할 때마다 알아서 백업됩니다.</span></li>
+    </ul>
+
+    <div class="alert good">
+      <span class="al-icon">✅</span>
+      <div><b>선생님이 하실 일은 두 가지뿐입니다</b>
+        <div>① 담당 선생님에게 <b>'클라이언트 ID'</b> 받기 (최초 1회, 모든 프로그램 공용)</div>
+        <div>② 사용하는 <b>프로그램마다 한 번씩 '구글 연결'</b> 하기 (각 1~2분)</div>
+        <div>구글 클라우드 콘솔 설정 같은 어려운 준비는 모두 끝나 있으므로, 선생님은 신경 쓰실 필요가 없습니다.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sub-title">설정 화면 살펴보기</div>
+    <p class="minor mb8">모든 프로그램의 [⚙️ 설정] 안에는 아래와 같은 <b class="hi">구글 드라이브 자동 백업</b> 영역이 들어 있습니다. 모양과 사용법은 모든 프로그램이 동일합니다.</p>
+
+    <div class="mockup">
+      <div class="mockup-row">
+        <div class="mockup-label">① OAuth 클라이언트 ID</div>
+        <div class="mockup-input">xxxxx.apps.googleusercontent.com</div>
+      </div>
+      <div class="mockup-row">
+        <div class="mockup-label">② 날짜별 파일 보관 일수</div>
+        <div class="mockup-pill-row">
+          <div class="mockup-pill on">30일</div>
+          <div class="mockup-pill">60일</div>
+          <div class="mockup-pill">90일</div>
+        </div>
+      </div>
+      <div class="mockup-row">
+        <div class="mockup-label">③ 연결 버튼</div>
+        <div class="mockup-btn">🔗 구글 연결 (최초 1회)</div>
+      </div>
+      <div class="mockup-row">
+        <div class="mockup-label">④ 자동 백업 체크박스</div>
+        <div class="mockup-check"><span class="mockup-checkbox"></span> 앱을 켤 때 자동으로 드라이브에 백업</div>
+      </div>
+    </div>
+
+    <div class="sub-title">연결 방법 (프로그램마다 한 번씩)</div>
+    <ol class="steps">
+      <li><span class="step-num">1</span><span>프로그램 상단의 <span class="hi">[⚙️ 설정]</span>을 열고, <b>구글 드라이브 자동 백업</b> 영역을 펼칩니다. ([드라이브 연결 설정 열기])</span></li>
+      <li><span class="step-num">2</span><span>담당 선생님에게 받은 <b>OAuth 클라이언트 ID</b>(끝이 <span class="hi-blue">.apps.googleusercontent.com</span>인 긴 문자열)를 첫 번째 입력칸에 그대로 붙여넣습니다.</span></li>
+      <li><span class="step-num">3</span><span><span class="hi">[🔗 구글 연결]</span> 버튼을 누릅니다. 새 창이 열리면 본인 Gmail 계정으로 로그인합니다.</span></li>
+      <li><span class="step-num">4</span><span>"이 앱이 Google Drive에 접근하도록 허용" 화면이 나오면 <span class="hi">[허용/계속]</span>을 누릅니다. (선생님이 만든 파일만 다루는 권한이라 안전합니다.)</span></li>
+      <li><span class="step-num">5</span><span><span class="hi">[앱을 켤 때 자동으로 드라이브에 백업]</span> 체크박스를 켭니다(ON). 이제 연결이 완료되었습니다.</span></li>
+      <li><span class="step-num">6</span><span>필요하면 <b>날짜별 파일 보관 일수</b>(기본 30일)를 정합니다. 이 기간이 지난 날짜별 파일은 자동으로 정리됩니다.</span></li>
+    </ol>
+
+    <div class="alert tip">
+      <span class="al-icon">💡</span>
+      <div><b>알아두기</b>
+        <div>연결은 프로그램마다 따로 해야 합니다. 한 프로그램에서 연결했다고 다른 프로그램이 함께 연결되지는 않습니다. (각 1~2분이면 됩니다.)</div>
+        <div>클라이언트 ID는 모든 프로그램에 같은 값을 그대로 붙여넣으면 됩니다.</div>
+        <div>[지금 드라이브로 백업] 버튼을 누르면 자동 백업과 별개로 즉시 한 번 백업할 수 있습니다.</div>
+      </div>
+    </div>
+    <div class="alert warn">
+      <span class="al-icon">⚠️</span>
+      <div><b>처음 연결할 때 안내 화면이 떠도 당황하지 마세요</b><br>"Google에서 확인하지 않은 앱" 같은 안내가 나오면, <b>[고급] → [(앱이름)(으)로 이동]</b>을 눌러 진행하면 됩니다. 안전한 프로그램입니다. 잘 모르겠으면 담당 선생님에게 문의하세요.</div>
+    </div>
+  </div>
+
+  <div class="section-header">1-5. 메모장</div>
+  <div class="card">
+    <p style="font-size:14px;line-height:1.7;margin-bottom:10px;">
+      대부분의 프로그램에는 <span class="hi">[📝 메모]</span> 기능이 있어, 근무 중 발견한 시설 고장이나 메모가 필요한 사항을 자유롭게 적을 수 있습니다. 적은 내용은 자동 저장됩니다.
+    </p>
+
+    <div class="mockup">
+      <div class="mockup-row">
+        <div class="mockup-pill-row">
+          <div class="mockup-pill on">✏️ 메모 작성</div>
+          <div class="mockup-pill">📋 지난 메모</div>
+        </div>
+      </div>
+      <div class="mockup-row">
+        <div class="mockup-input" style="text-align:left;">여기를 탭하면 키보드가 열립니다. 긴 내용은 여기에 입력하세요.</div>
+      </div>
+      <div class="mockup-row" style="display:flex;align-items:center;gap:8px;">
+        <span class="theme-swatch" style="width:18px;height:18px;background:#1e293b;"></span>
+        <span class="theme-swatch" style="width:18px;height:18px;background:#2563eb;"></span>
+        <span class="theme-swatch" style="width:18px;height:18px;background:#dc2626;"></span>
+        <span class="theme-swatch" style="width:18px;height:18px;background:#16a34a;"></span>
+        <div class="mockup-pill" style="flex:none;padding:6px 10px;">지우개</div>
+        <div class="mockup-pill" style="flex:none;padding:6px 10px;">전체지움</div>
+      </div>
+      <div class="mockup-row">
+        <div class="mockup-btn">💾 메모 저장</div>
+      </div>
+    </div>
+
+    <ul class="checklist">
+      <li><span><b>텍스트 메모</b> — 입력칸을 누르면 키보드가 열려 긴 내용을 적을 수 있습니다.</span></li>
+      <li><span><b>손글씨·그림 메모</b> — 캔버스에 S펜이나 손가락으로 직접 그릴 수 있고, 색상·굵기 선택과 지우개·전체지움을 지원합니다.</span></li>
+      <li><span><b>지난 메모</b> — [지난 메모] 탭에서 날짜별로 저장된 메모를 다시 볼 수 있습니다.</span></li>
+    </ul>
+  </div>
+
+  <div class="section-header">1-6. 공통 사용 시 주의사항</div>
 
   <div class="card">
     <div class="alert danger">
       <span class="al-icon">⚠️</span>
-      <div><b>데이터 보호 — 반드시 지켜 주세요</b><br>브라우저 데이터(캐시·사이트 데이터)를 삭제하면 기기 내 저장 데이터가 <b>함께 지워집니다.</b> 정기 백업을 생활화하세요.</div>
-    </div>
-    <div class="alert warn">
-      <span class="al-icon">🔥</span>
-      <div><b>학년마다 제목(타이틀)을 다르게 설정하세요</b><br>제목이 같으면 백업 파일명이 똑같아져 기존 데이터가 덮어써져 영구 삭제될 수 있습니다.</div>
+      <div><b>데이터 보호 — 꼭 지켜 주세요</b>
+        <div>기기 내 저장 데이터는 브라우저 데이터(캐시·사이트 데이터)를 삭제하면 함께 지워집니다. 구글 드라이브 자동 백업을 켜 두는 것을 권장합니다.</div>
+        <div>여러 학년·여러 자습실을 함께 쓰는 경우, 프로그램마다 <b>제목(이름)을 학년별로 다르게</b> 설정해야 백업 파일·폴더가 겹쳐 덮어써지는 것을 막을 수 있습니다.</div>
+        <div>자동 초기화 기능이 있는 프로그램은, 초기화 전에 기록이 필요하면 <b>전날 밤이나 종료 직후 백업</b>을 완료해 두세요.</div>
+      </div>
     </div>
     <div class="alert tip">
       <span class="al-icon">📁</span>
-      <div><b>안드로이드 다운로드 폴더 안내</b><br>파일은 자동으로 [다운로드] 폴더에 저장됩니다. [내 파일] 앱에서 전용 폴더(예: '태하관백업')를 만들어 정기적으로 정리하세요.</div>
+      <div><b>안드로이드 다운로드 폴더 안내</b><br>앱에서 파일을 저장하면 기기의 [다운로드] 폴더에 저장됩니다. 파일이 여러 날 쌓이므로, <b>[내 파일] 앱에서 전용 폴더(예: '기숙사백업')를 만들어</b> 정기적으로 정리하는 습관을 들이세요.</div>
     </div>
   </div>
 
 </div>
-
 <!-- ══════════════════════════════════════ -->
-<!-- 페이지 3: 프로그램별 설명 -->
+<!-- 페이지 3: 프로그램 -->
 <!-- ══════════════════════════════════════ -->
 <div class="page" id="page-programs">
 
-  <!-- 자습실 출석부 -->
-  <div id="prog1">
-    <div class="home-banner" style="background:linear-gradient(135deg,#1e3a8a,#2563eb)">
-      <h2>📋 자습실 출석부</h2>
-      <p>야간 자습 1·2·3교시 상세 출결 관리<br>좌석 배치도 위에서 색상으로 구분</p>
-    </div>
+  <!-- 프로그램 선택 그리드 -->
+  <div id="prog-selector">
+    <div class="section-header">프로그램을 선택하세요</div>
+    <div class="prog-select-grid">
 
-    <div class="section-header">시작 준비</div>
-    <div class="card">
-      <div class="sub-title">제목(타이틀) 변경 — 가장 먼저!</div>
-      <p class="minor mb8">화면 상단 가운데 큰 글씨(예: "태하관 자습실 ✏️")를 가볍게 누르면 이름 변경 창이 열립니다.</p>
-      <div class="alert danger">
-        <span class="al-icon">🔥</span>
-        <div><b>학년마다 제목을 다르게 설정하세요</b><br>입력한 제목이 백업 엑셀 파일명에 들어갑니다. 같으면 파일이 덮어써져 데이터가 영구 삭제됩니다.<br>예) <span class="hi-green">1학년_출결기록 / 2학년_출결기록</span></div>
+      <div class="prog-select-card" onclick="showProgDetail('prog1')">
+        <div class="prog-select-num">PROGRAM 01</div>
+        <div class="prog-select-icon" style="background:#dbeafe;">📋</div>
+        <div class="prog-select-name">자습실 출석부</div>
+        <div class="prog-select-desc">1·2·3교시 좌석 배치도</div>
       </div>
-    </div>
 
-    <div class="card">
-      <div class="sub-title">배치도 로드 vs 당일 출석부 연동</div>
-      <table class="tbl">
-        <tr><th>🔄 배치도 로드</th><th>📊 당일 출석부 연동</th></tr>
-        <tr><td>학기 초 또는 자리 변경 시 <b>1회만</b></td><td>매일 자습 시작 전 1회</td></tr>
-        <tr><td>좌석 배열·번호 등록</td><td>당일 귀가·외출·교내활동 명단</td></tr>
-        <tr><td>기기에 영구 보관</td><td>파일명 8자리 날짜 자동 인식</td></tr>
-      </table>
-      <div class="alert tip">
-        <span class="al-icon">💡</span>
-        <div>파일명 뒤에 <b>20260604</b> 처럼 8자리 숫자가 있으면 날짜를 <span class="hi-green">초록색</span>으로 표시해 정상 연동 여부를 한눈에 확인할 수 있습니다.<br>예시: 기숙사일지20260604</div>
+      <div class="prog-select-card" onclick="showProgDetail('prog2')">
+        <div class="prog-select-num">PROGRAM 02</div>
+        <div class="prog-select-icon" style="background:#dcfce7;">🌅</div>
+        <div class="prog-select-name">아침 점호</div>
+        <div class="prog-select-desc">학번 입력 출석 체크</div>
       </div>
-    </div>
 
-    <div class="section-header">좌석 상태 수동 변경</div>
-    <div class="card">
-      <div class="sub-title">교시 전환</div>
-      <p class="minor mb8">화면 오른쪽 위 <span class="hi">[1교시] [2교시] [3교시]</span> 탭으로 교시를 전환합니다.</p>
-      <div class="divider"></div>
-      <div class="sub-title">전 교시 일괄 적용 상태</div>
-      <p class="minor mb8">선택 즉시 나머지 교시까지 자동으로 같은 상태가 됩니다.</p>
-      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;">
-        <span class="badge badge-red">조퇴</span><span class="badge badge-red">귀가</span>
-        <span class="badge badge-red">결석</span><span class="badge badge-red">미입사</span>
-        <span class="badge badge-red">명령퇴사</span><span class="badge badge-red">자진퇴사</span>
+      <div class="prog-select-card" onclick="showProgDetail('prog3')">
+        <div class="prog-select-num">PROGRAM 03</div>
+        <div class="prog-select-icon" style="background:#ede9fe;">🌙</div>
+        <div class="prog-select-name">심야 자습 출석부</div>
+        <div class="prog-select-desc">출석/부재 빠른 체크</div>
       </div>
-      <div class="divider"></div>
-      <div class="sub-title">해당 교시만 적용 상태</div>
-      <p class="minor mb8">선택한 교시에만 적용, 나머지 교시는 원래 상태 유지</p>
-      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;">
-        <span class="badge badge-blue">자습중</span><span class="badge badge-blue">외출</span>
-        <span class="badge badge-yellow">병결</span><span class="badge badge-blue">교내활동</span>
-        <span class="badge badge-blue">도서관</span><span class="badge badge-yellow">쉼터</span>
-        <span class="badge badge-purple">자승가강</span><span class="badge badge-purple">상담</span>
-      </div>
-    </div>
 
-    <div class="card">
-      <div class="sub-title">좌석 색상으로 상태 읽기</div>
-      <table class="tbl">
-        <tr><th>색상</th><th>상태</th><th>적용 방식</th></tr>
-        <tr><td><span class="color-dot" style="background:#22c55e"></span></td><td>자습중</td><td>정상 출석</td></tr>
-        <tr><td><span class="color-dot" style="background:#ef4444"></span></td><td>조퇴·귀가·결석 등</td><td>전 교시 일괄</td></tr>
-        <tr><td><span class="color-dot" style="background:#eab308"></span></td><td>병결·쉼터</td><td>해당 교시만</td></tr>
-        <tr><td><span class="color-dot" style="background:#3b82f6"></span></td><td>교내활동·외출·도서관</td><td>해당 교시만</td></tr>
-        <tr><td><span class="color-dot" style="background:#8b5cf6"></span></td><td>상담·자승가강</td><td>해당 교시만</td></tr>
-      </table>
-      <div class="alert warn">
-        <span class="al-icon">⚠️</span>
-        <div><b>중복 신청 감지</b> — 같은 교시에 외출과 교내활동을 동시에 신청하면 <b>분홍색 테두리 깜빡임</b>과 "중복신청" 표시가 나타납니다. 좌석을 눌러 올바른 상태로 바꿔 주세요.</div>
+      <div class="prog-select-card" onclick="showProgDetail('prog4')">
+        <div class="prog-select-num">PROGRAM 04</div>
+        <div class="prog-select-icon" style="background:#fff7ed;">📱</div>
+        <div class="prog-select-name">전자기기 관리</div>
+        <div class="prog-select-desc">기기 제출 학년별 체크</div>
       </div>
-      <div class="alert warn">
-        <span class="al-icon">⏰</span>
-        <div><b>자동 초기화</b> — 모든 기록은 <b>다음 날 오전 9시 이후</b> 프로그램을 켜거나 새로고침하면 자동 초기화됩니다. 9시 이전 데이터가 필요하면 전날 밤 백업을 완료해 두세요.</div>
+
+      <div class="prog-select-card" onclick="showProgDetail('prog5')">
+        <div class="prog-select-num">PROGRAM 05</div>
+        <div class="prog-select-icon" style="background:#fce7f3;">🚪</div>
+        <div class="prog-select-name">퇴실 체크아웃</div>
+        <div class="prog-select-desc">호실별 상·벌점 관리</div>
       </div>
-    </div>
 
-    <div class="section-header">내보내기 & 백업</div>
-    <div class="card">
-      <ul class="checklist">
-        <li><span><span class="hi-blue">📤 3교시 출결 내보내기</span> — 최종 부재 인원만 추출해 카카오톡으로 전송</span></li>
-        <li><span><span class="hi">🗓️ 과거 기록</span> — 연도별 백업 내보내기와 백업 파일 불러오기(복원)</span></li>
-      </ul>
-    </div>
+      <div class="prog-select-card" onclick="showProgDetail('prog6')">
+        <div class="prog-select-num">PROGRAM 06</div>
+        <div class="prog-select-icon" style="background:#ccfbf1;">📔</div>
+        <div class="prog-select-name">기숙사 관리일지</div>
+        <div class="prog-select-desc">근무일지·상벌점·상담</div>
+      </div>
 
-    <div class="card" style="background:#f0fdf4;border-color:#86efac;">
-      <div class="card-title"><div class="icon" style="background:#dcfce7;">✅</div>권장 일일 운영 절차</div>
-      <ol class="steps">
-        <li><span class="step-num">①</span><span>자습 시작 전: 당일 출석부 엑셀 연동</span></li>
-        <li><span class="step-num">②</span><span>3교시 완료 후: [📤 3교시 출결 내보내기]로 부재자 명단 전송</span></li>
-        <li><span class="step-num">③</span><span>자습 종료 후: [🗓️ 과거 기록] → [📥 백업 내보내기] 실행</span></li>
-        <li><span class="step-num">④</span><span>주 1회: 다운로드 폴더 파일을 전용 백업 폴더로 정리</span></li>
-      </ol>
     </div>
   </div>
 
-  <div class="divider" style="margin:24px 0;border-top:3px dashed #e2e8f0;"></div>
+  <!-- 프로그램 상세 -->
+  <div id="prog-detail" style="display:none;">
+    <button class="back-btn" onclick="showProgList()">← 전체 프로그램 목록</button>
 
-  <!-- 아침 점호 -->
-  <div id="prog2">
-    <div class="home-banner" style="background:linear-gradient(135deg,#14532d,#16a34a)">
-      <h2>🌅 기숙사 아침 점호</h2>
-      <p>학번 입력으로 출석 체크<br>지각·불참 자동 분류</p>
-    </div>
+    <!-- ════════ prog1: 자습실 출석부 ════════ -->
+    <div class="prog-block" id="prog1">
+      <div class="home-banner" style="background:linear-gradient(135deg,#1e3a8a,#2563eb)">
+        <div class="prog-tag">PROGRAM 01</div>
+        <h2>📋 자습실 출석부</h2>
+        <p>야간 자습 1·2·3교시 상세 출결 관리<br>좌석 배치도 위에서 색상으로 구분, 부재자 카카오톡 전달</p>
+      </div>
 
-    <div class="section-header">시작 준비</div>
-    <div class="card">
-      <ol class="steps">
-        <li><span class="step-num">1</span><span><span class="hi">[📁 당일 명단 등록]</span>을 눌러 학생 명단 엑셀 파일을 등록합니다.<br><span class="minor">예시 파일명: 기숙사일지20260604</span></span></li>
-        <li><span class="step-num">2</span><span><span class="hi">[⏰ 기준 시간 설정]</span>을 눌러 지각·불참 처리 기준 시각을 설정합니다.</span></li>
-      </ol>
-      <div class="alert warn">
-        <span class="al-icon">❌</span>
-        <div><b>명단을 읽지 못한다면</b><br>엑셀의 시트 이름과 학번·이름·호실 열 구조가 맞는지 확인하세요.</div>
+      <div class="subnav">
+        <button onclick="jumpTo('p1-1')">2-1 준비</button>
+        <button onclick="jumpTo('p1-2')">2-2 연동</button>
+        <button onclick="jumpTo('p1-3')">2-3 좌석상태</button>
+        <button onclick="jumpTo('p1-4')">2-4 내보내기</button>
+        <button onclick="jumpTo('p1-5')">2-5 백업</button>
+        <button onclick="jumpTo('p1-6')">2-6 메모·테마</button>
+      </div>
+
+      <p class="minor mb8">야간 자습 1·2·3교시의 상세 출결을 좌석 배치도 위에서 관리하는 프로그램입니다. 조퇴·외출·상담·도서관 등 다양한 사유를 색으로 구분해 기록하고, 부재자 명단을 카카오톡으로 바로 전달할 수 있습니다.</p>
+
+      <div class="section-header" id="p1-1">2-1. 최초 준비 — 자습실 이름과 좌석 배치도</div>
+      <div class="card">
+        <p class="minor mb8">처음 사용할 때 한 번만 준비하면 됩니다. 먼저 화면 상단 가운데의 큰 글씨(예: "1학년 자습실 ✏️")를 눌러 <b class="hi">자습실 이름</b>을 학년에 맞게 정하세요. 그다음 [⚙️ 설정]에서 좌석 배치도 엑셀을 한 번 등록합니다.</p>
+        <ul class="checklist">
+          <li><span><b>📥 배치도 엑셀 불러오기</b> — 좌석 배열·교사석·좌석 번호가 담긴 엑셀을 등록합니다. 한 번 등록하면 자리 변경 전까지 그대로 유지됩니다.</span></li>
+        </ul>
+        <div class="alert danger">
+          <span class="al-icon">🔥</span>
+          <div><b>학년마다 이름을 다르게 정하세요</b><br>입력한 이름은 백업 파일과 구글 드라이브 폴더 이름에 그대로 쓰입니다. 학년이 다른데 이름이 같으면 서로의 백업을 덮어쓸 수 있습니다.</div>
+        </div>
+      </div>
+
+      <div class="section-header" id="p1-2">2-2. 매일 — 당일 출석부 연동</div>
+      <div class="card">
+        <p class="minor mb8">자습 시작 전, 상단의 날짜 영역(출석부 연동)을 통해 그날의 <b class="hi">당일 출석부 엑셀(귀가·외출·교내활동·도서관 명단)</b>을 연동합니다. 그러면 해당 학생의 좌석이 자동으로 색과 상태가 적용됩니다.</p>
+        <div class="alert tip">
+          <span class="al-icon">💡</span>
+          <div><b>날짜 자동 인식</b><br>당일 출석부 파일명 뒤에 <b>20260617</b>처럼 8자리 날짜가 있으면, 프로그램이 자동으로 "6월 17일(수)"처럼 날짜를 인식해 표시합니다.</div>
+        </div>
+      </div>
+
+      <div class="section-header" id="p1-3">2-3. 교시 전환과 좌석 상태 변경</div>
+      <div class="card">
+        <p class="minor mb8">오른쪽 위 <span class="hi">[1교시] [2교시] [3교시]</span> 탭으로 교시를 전환합니다. 자습 중 상황이 생기면 해당 학생 좌석을 눌러 상태를 바꿉니다.</p>
+        <div class="divider"></div>
+        <div class="sub-title">전 교시 일괄 적용</div>
+        <p class="minor mb8">조퇴·귀가·결석·미입사·명령퇴사·자진퇴사. 오늘 자습에 오지 못하는 상황이므로 선택 즉시 1~3교시 전체에 적용됩니다.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;">
+          <span class="badge badge-red">조퇴</span><span class="badge badge-red">귀가</span>
+          <span class="badge badge-red">결석</span><span class="badge badge-red">미입사</span>
+          <span class="badge badge-red">명령퇴사</span><span class="badge badge-red">자진퇴사</span>
+        </div>
+        <div class="divider"></div>
+        <div class="sub-title">해당 교시만 적용</div>
+        <p class="minor mb8">자습중·외출·병결·무단결석·교내활동·도서관·쉼터·상담. 선택한 교시에만 적용됩니다.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          <span class="badge badge-blue">자습중</span><span class="badge badge-blue">외출</span>
+          <span class="badge badge-yellow">병결</span><span class="badge badge-red">무단결석</span>
+          <span class="badge badge-blue">교내활동</span><span class="badge badge-green">도서관</span>
+          <span class="badge badge-yellow">쉼터</span><span class="badge badge-purple">상담</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="sub-title">좌석 색상으로 읽는 상태</div>
+        <table class="tbl">
+          <tr><th>색상</th><th>상태</th><th>적용 방식</th></tr>
+          <tr><td><span class="color-dot" style="background:#22c55e"></span>도서관(초록)</td><td>도서관 이용</td><td>해당 교시만</td></tr>
+          <tr><td><span class="color-dot" style="background:#ef4444"></span>조퇴·귀가·결석·퇴사(빨강)</td><td>부재</td><td>전 교시 일괄</td></tr>
+          <tr><td><span class="color-dot" style="background:#eab308"></span>병결/쉼터(노랑)</td><td>병결·쉼터</td><td>해당 교시만</td></tr>
+          <tr><td><span class="color-dot" style="background:#3b82f6"></span>교내활동/외출(파랑)</td><td>교내활동·외출</td><td>해당 교시만</td></tr>
+          <tr><td><span class="color-dot" style="background:#8b5cf6"></span>상담(보라)</td><td>상담</td><td>해당 교시만</td></tr>
+        </table>
+        <div class="alert warn">
+          <span class="al-icon">⏰</span>
+          <div><b>자동 초기화</b><br>전날 밤 변경된 기록은 다음 날 오전 9시 이후 프로그램을 켜거나 새로고침하면 자동 초기화됩니다.</div>
+        </div>
+      </div>
+
+      <div class="section-header" id="p1-4">2-4. 3교시 출결 내보내기</div>
+      <div class="card">
+        <p class="minor mb8">3교시 체크를 마치면 설정의 <span class="hi">[📤 3교시 출결 내보내기]</span>를 누릅니다. 최종 부재자(결석·조퇴·귀가·퇴사·미입사)만 추려 카카오톡으로 바로 전달할 수 있는 요약 텍스트를 만들어 줍니다.</p>
+        <div class="code-preview">[1학년 2026년 06월 17일(수) 3교시 부재자 명단]
+
+- 1411 노영준 (귀가)
+- 1506 권순우 (명령퇴사)
+- 1706 김범찬 (자진퇴사)</div>
+        <p class="minor">위와 같은 명단 텍스트가 자동으로 만들어져 <b class="hi">[💬 카카오톡으로 명단 텍스트 공유]</b> 버튼으로 바로 전송할 수 있습니다.</p>
+      </div>
+
+      <div class="section-header" id="p1-5">2-5. 백업·복원과 과거 기록</div>
+      <div class="card">
+        <ul class="checklist">
+          <li><span><span class="hi">🗓️ 과거 기록 조회 / 복원</span> — 지난 날짜의 출결을 다시 볼 수 있습니다.</span></li>
+          <li><span><span class="hi">💾 전체 백업(.json) / 복원</span> — 모든 날짜의 출결·배치도·메모·테마를 파일 하나로 저장하고, 백업 파일 하나로 전체 복원합니다.</span></li>
+          <li><span><span class="hi">📊 엑셀로 내보내기(.xlsx)</span> — 보고용 엑셀로 출결 기록을 내보냅니다.</span></li>
+          <li><span><span class="hi-blue">☁️ 구글 드라이브 자동 백업</span> — 공통안내 1-4 안내대로 한 번 연결해 두면 매번 자동 백업됩니다.</span></li>
+        </ul>
+      </div>
+
+      <div class="section-header" id="p1-6">2-6. 메모와 화면 테마</div>
+      <div class="card">
+        <p class="minor mb8">오른쪽 위 <span class="hi">[📝 메모]</span>로 당일 특이사항을 적을 수 있고, 화면 오른쪽 아래의 🎨 팔레트 버튼으로 화면 테마를 6가지 중에서 고를 수 있습니다. 야간에는 눈이 편한 어두운 테마를 권장합니다.</p>
+        <div class="theme-row">
+          <div class="theme-chip"><span class="theme-swatch" style="background:#2563eb;"></span><span>클래식 블루</span></div>
+          <div class="theme-chip"><span class="theme-swatch" style="background:#0f172a;"></span><span>미드나이트 다크</span></div>
+          <div class="theme-chip"><span class="theme-swatch" style="background:#16a34a;"></span><span>포레스트 그린</span></div>
+          <div class="theme-chip"><span class="theme-swatch" style="background:#ea580c;"></span><span>선셋 앰버</span></div>
+          <div class="theme-chip"><span class="theme-swatch" style="background:#1e293b;"></span><span>모노 고대비</span></div>
+          <div class="theme-chip"><span class="theme-swatch" style="background:#a78bfa;"></span><span>라일락 파스텔</span></div>
+        </div>
       </div>
     </div>
+    <!-- ════════ /prog1 ════════ -->
 
-    <div class="section-header">점호 진행</div>
-    <div class="card">
-      <p class="minor mb8">학생이 키패드로 <span class="hi">자신의 학번을 입력하고 [Enter]</span>를 누르면 출석 처리됩니다.</p>
-      <table class="tbl">
-        <tr><th>버튼</th><th>기능</th></tr>
-        <tr><td>[지우기]</td><td>잘못 입력한 숫자 삭제</td></tr>
-        <tr><td>[Enter] (초록)</td><td>입력한 학번 출석 처리</td></tr>
-      </table>
-      <p class="minor mt8">기준 시간을 넘었으면 자동으로 <span class="badge badge-yellow">지각</span> 또는 <span class="badge badge-red">불참</span>으로 분류됩니다.</p>
-    </div>
+    <!-- ════════ prog2: 아침 점호 ════════ -->
+    <div class="prog-block" id="prog2">
+      <div class="home-banner" style="background:linear-gradient(135deg,#14532d,#16a34a)">
+        <div class="prog-tag">PROGRAM 02</div>
+        <h2>🌅 아침 점호</h2>
+        <p>학번 입력으로 출석 체크<br>지각·불참 자동 분류, 호실순 정리 후 공유</p>
+      </div>
 
-    <div class="section-header">점호 종료 & 기록 관리</div>
-    <div class="card">
-      <ul class="checklist">
-        <li><span><span class="hi">[📊 당일 점호 종료]</span> — 총원·부재 인원, 지각자·불참자 명단 표시</span></li>
-        <li><span><span class="hi">[🗂️ 기록/백업 관리]</span> — 날짜별 기록 확인, 엑셀 백업·복원</span></li>
-        <li><span><span class="hi">[📤 동기화 내보내기] / [📥 동기화 가져오기]</span> — 여러 기기 간 데이터 공유</span></li>
-      </ul>
-      <div class="alert tip">
-        <span class="al-icon">💡</span>
-        <div>같은 날 여러 번 저장한다면 <b>타임스탬프 방식</b>이 파일이 겹치지 않아 안전합니다.</div>
+      <div class="subnav">
+        <button onclick="jumpTo('p2-1')">3-1 준비</button>
+        <button onclick="jumpTo('p2-2')">3-2 체크</button>
+        <button onclick="jumpTo('p2-3')">3-3 종료·공유</button>
+        <button onclick="jumpTo('p2-4')">3-4 동기화</button>
+      </div>
+
+      <p class="minor mb8">아침 점호 시간에 학생이 자신의 학번을 누르거나 선생님이 학번을 입력해 출석을 체크하는 프로그램입니다. 기준 시간을 정해 두면 지각과 불참이 자동으로 분류되고, 점호 후 불참자 명단을 호실 순서로 정리해 바로 공유할 수 있습니다.</p>
+
+      <div class="section-header" id="p2-1">3-1. 최초 준비 — 명단 등록과 기준 시간</div>
+      <div class="card">
+        <ol class="steps">
+          <li><span class="step-num">1</span><span><span class="hi">[📁 당일 명단 등록]</span>을 눌러 학번·이름·호실이 담긴 명단 엑셀(예: 자습일지.xlsx)을 등록합니다.</span></li>
+          <li><span class="step-num">2</span><span><span class="hi">[⏰ 기준 시간 설정]</span>을 눌러 지각 처리 시간과 점호 종료(불참 처리) 시간을 정합니다.</span></li>
+        </ol>
+        <div class="mockup">
+          <div class="mockup-row">
+            <div class="mockup-label">⚠️ 지각 처리 시간</div>
+            <div class="mockup-input">06:45 AM</div>
+          </div>
+          <div class="mockup-row">
+            <div class="mockup-label">🚨 불참 처리 시간</div>
+            <div class="mockup-input">07:00 AM</div>
+          </div>
+          <div class="mockup-row"><div class="mockup-btn">저장하기</div></div>
+        </div>
+        <p class="minor">이 시각을 기준으로 정상·지각·불참이 자동으로 분류됩니다.</p>
+      </div>
+
+      <div class="section-header" id="p2-2">3-2. 학번 입력으로 출석 체크</div>
+      <div class="card">
+        <p class="minor mb8">학생이 키패드로 <span class="hi">자신의 학번 네 자리를 입력하고 [Enter]</span>를 누르면 출석으로 기록됩니다. 입력 시각이 기준을 넘으면 자동으로 <span class="hi-orange">지각</span>·<span class="hi-red">불참</span>으로 분류됩니다. 처리 결과는 화면 중앙에 큰 글씨와 음성으로 안내됩니다.</p>
+        <div class="alert good">
+          <span class="al-icon">🛡️</span>
+          <div><b>안심하고 쓰는 데이터 보호</b><br>매 입력마다 자동 저장되어, 도중에 화면이 꺼지거나 앱을 다시 열어도 진행 중이던 점호가 그대로 복원됩니다. 점호 중 뒤로가기로 갑자기 종료되는 것도 막아 줍니다.</div>
+        </div>
+      </div>
+
+      <div class="section-header" id="p2-3">3-3. 점호 종료와 불참자 공유</div>
+      <div class="card">
+        <p class="minor mb8">점호가 끝나면 <span class="hi">[📊 당일 점호 종료]</span>를 누릅니다. 총원·부재·대상 인원과 정상출석·지각·불참 수가 정리되고, 지각자 명단과 불참자 명단이 표시됩니다.</p>
+        <div class="code-preview">총원: 282명 / 부재: 1명 / 대상: 281명
+
+✅ 정상 출석: 279명
+⚠️ 점호 지각: 1명
+🚨 점호 불참: 1명
+
+[지각자 명단]
+3614 장우주(523호)
+
+[불참자 명단] (호실순 — 순찰용)
+3615 전근태(525호) [지각입력]</div>
+        <ul class="checklist">
+          <li><span><b>불참자 호실순 정렬</b> — 불참자를 호실 순서로 정렬해 보여 주므로 호실을 찾아가서 확인하기 편합니다.</span></li>
+          <li><span><b>💬 카카오톡으로 공유</b> — 불참자 명단을 카카오톡 등으로 바로 공유합니다. 공유 받은 선생님들이 불참 학생을 호실에 직접 찾아가서 확인합니다.</span></li>
+        </ul>
+      </div>
+
+      <div class="section-header" id="p2-4">3-4. 동기화 — 여러 기기 점호 기록 합치기</div>
+      <div class="card">
+        <p class="minor mb8">점호를 <b class="hi">여러 대의 태블릿이 나눠서 진행</b>한 경우, 각 기기의 출석 기록을 한 대의 메인 기기로 모아 합치는 기능입니다. 안드로이드 <b class="hi">퀵쉐어(Quick Share)</b>로 기기 간에 전송합니다.</p>
+
+        <div class="sub-title">내보내는 기기 — 동기화(내보내기)</div>
+        <ul class="checklist mb8">
+          <li><span><b>📤 퀵쉐어로 파일 보내기 (권장)</b> — 점호동기화_날짜.json 파일이 다운로드 폴더에 저장되고, 이어서 공유 화면이 떠 퀵쉐어로 메인 기기에 보냅니다.</span></li>
+          <li><span><b>📤 퀵쉐어로 텍스트 보내기</b> — 파일 전송이 막힌 환경에서 텍스트로 보냅니다. 받는 기기에서 복사 후 붙여넣습니다.</span></li>
+        </ul>
+
+        <div class="sub-title">받는 기기 — 동기화(가져오기)</div>
+        <div class="alert warn">
+          <span class="al-icon">⚠️</span>
+          <div><b>먼저 확인</b><br>가져오기 전에 메인 기기에 당일 명단이 먼저 등록되어 있어야 합니다.</div>
+        </div>
+        <ul class="checklist mb8">
+          <li><span><b>📁 동기화 파일 선택 (권장)</b> — 퀵쉐어로 받은 다운로드(또는 Quick Share) 폴더의 점호동기화 파일을 선택하면 자동 병합됩니다.</span></li>
+        </ul>
+        <div class="alert good">
+          <span class="al-icon">🔀</span>
+          <div><b>병합 방식</b><br>가져오기는 기존 기록을 지우지 않고 합칩니다. 여러 기기의 파일을 차례로 가져오면 모두 모입니다.</div>
+        </div>
       </div>
     </div>
+    <!-- ════════ /prog2 ════════ -->
+
+    <!-- ════════ prog3: 심야 자습 출석부 ════════ -->
+    <div class="prog-block" id="prog3">
+      <div class="home-banner" style="background:linear-gradient(135deg,#4c1d95,#7c3aed)">
+        <div class="prog-tag">PROGRAM 03</div>
+        <h2>🌙 심야 자습 출석부</h2>
+        <p>좌석 터치로 출석/부재만 빠르게<br>자습실 출석부의 단순 버전</p>
+      </div>
+
+      <div class="subnav">
+        <button onclick="jumpTo('p3-1')">4-1 사용방법</button>
+        <button onclick="jumpTo('p3-2')">4-2 기록·메모</button>
+      </div>
+
+      <p class="minor mb8">좌석을 한 번씩 눌러 출석/부재만 빠르게 체크하는 단순 버전입니다. 자습실 출석부와 같은 배치도를 쓰지만, 사유 구분 없이 출석 여부만 표시하므로 인원 확인이 매우 빠릅니다.</p>
+
+      <div class="section-header" id="p3-1">4-1. 사용 방법</div>
+      <div class="card">
+        <ol class="steps">
+          <li><span class="step-num">1</span><span><span class="hi">[🔄 배치도]</span>로 좌석 배치도 엑셀을 처음 한 번 등록합니다. (자습실 출석부와 동일한 배치도)</span></li>
+          <li><span class="step-num">2</span><span>출석한 학생의 좌석을 누르면 출석 표시로 바뀌고, 다시 누르면 부재로 돌아갑니다.</span></li>
+          <li><span class="step-num">3</span><span>상단에 총원·출석·부재 인원이 실시간 집계됩니다.</span></li>
+        </ol>
+      </div>
+
+      <div class="section-header" id="p3-2">4-2. 과거 기록과 메모</div>
+      <div class="card">
+        <ul class="checklist">
+          <li><span><span class="hi">🗓️ 과거 기록</span> — 연도별 백업 내보내기와 백업 파일 복원을 지원합니다.</span></li>
+          <li><span><span class="hi">📝 메모</span> — 당일 특이사항을 적을 수 있습니다. (자동 저장)</span></li>
+          <li><span><span class="hi-blue">☁️ 구글 드라이브 자동 백업</span> — 공통안내 1-4 안내대로 연결하면 자동 백업됩니다.</span></li>
+        </ul>
+      </div>
+    </div>
+    <!-- ════════ /prog3 ════════ -->
+
+    <!-- ════════ prog4: 전자기기 관리 ════════ -->
+    <div class="prog-block" id="prog4">
+      <div class="home-banner" style="background:linear-gradient(135deg,#7c2d12,#ea580c)">
+        <div class="prog-tag">PROGRAM 04</div>
+        <h2>📱 전자기기 관리</h2>
+        <p>핸드폰·태블릿·노트북 제출 여부<br>학년별 체크 — 미제출만 빠르게 표시</p>
+      </div>
+
+      <div class="subnav">
+        <button onclick="jumpTo('p4-1')">5-1 준비</button>
+        <button onclick="jumpTo('p4-2')">5-2 일지연동</button>
+        <button onclick="jumpTo('p4-3')">5-3 현황·기록</button>
+      </div>
+
+      <p class="minor mb8">학생들이 핸드폰·태블릿·노트북을 제출했는지 학년별로 체크하는 프로그램입니다. 미제출 기기만 빠르게 눌러 표시하는 방식이라 점검이 매우 빠릅니다.</p>
+
+      <div class="section-header" id="p4-1">5-1. 최초 준비 (한 번만, 자동 저장)</div>
+      <div class="card">
+        <ol class="steps">
+          <li><span class="step-num">1</span><span><span class="hi">[☰ 메뉴] → [📁 학생 명단 등록]</span>으로 방배정 엑셀(예: 남학생방배정.xlsx)을 등록합니다.</span></li>
+          <li><span class="step-num">2</span><span><span class="hi">[🛠️ 보유설정]</span>으로 핸드폰·태블릿·노트북을 가지고 있지 않은 학생을 미보유로 표시합니다.</span></li>
+        </ol>
+      </div>
+
+      <div class="section-header" id="p4-2">5-2. 매일 — 일지 연동과 체크</div>
+      <div class="card">
+        <ol class="steps">
+          <li><span class="step-num">1</span><span><span class="hi">[📅 일지 연동]</span>으로 그날의 기숙사 일지 엑셀을 연동합니다. 퇴사·귀가자가 자동으로 음영 처리됩니다.</span></li>
+          <li><span class="step-num">2</span><span><span class="hi">[1학년] [2학년] [3학년] 탭</span>으로 학년을 전환하며 체크합니다.</span></li>
+        </ol>
+        <div class="divider"></div>
+        <div class="sub-title">기기 칸 색상의 의미</div>
+        <table class="tbl">
+          <tr><th>색상</th><th>상태</th><th>의미</th></tr>
+          <tr><td><span class="color-dot" style="background:#94a3b8"></span>회색</td><td>보유 기기</td><td>제출 완료가 기본값</td></tr>
+          <tr><td><span class="color-dot" style="background:#22c55e"></span>초록</td><td>미보유</td><td>체크 불필요</td></tr>
+          <tr><td><span class="color-dot" style="background:#ef4444"></span>빨강</td><td>미제출</td><td>회색 칸을 눌러 표시</td></tr>
+        </table>
+        <div class="alert good">
+          <span class="al-icon">✅</span>
+          <div><b>빠른 체크 요령</b><br>대부분 제출하므로 미제출 기기만 눌러 빨강으로 표시하면 됩니다. 나머지는 제출 완료로 처리되어 점검이 매우 빠릅니다.</div>
+        </div>
+      </div>
+
+      <div class="section-header" id="p4-3">5-3. 미제출 현황과 기록</div>
+      <div class="card">
+        <ul class="checklist">
+          <li><span><span class="hi">🚨 미제출 현황</span> — 미제출 학생과 핸드폰·태블릿·노트북 미제출 대수를 정리해 보여 줍니다.</span></li>
+          <li><span><span class="hi">📅 날짜별 기록</span> — 체크할 때마다 자동 저장된 기록을 달력에서 확인합니다.</span></li>
+          <li><span><span class="hi-blue">💾 백업 / 복원 / ☁️ 구글 드라이브</span> — 명단·보유설정·모든 기록을 파일 하나로 저장·복원하고, 드라이브로 자동 백업합니다.</span></li>
+        </ul>
+        <div class="alert warn">
+          <span class="al-icon">⏰</span>
+          <div><b>자동 초기화</b><br>미제출 체크는 매일 오전 9시에 자동 초기화됩니다. (명단·보유설정은 유지)</div>
+        </div>
+      </div>
+    </div>
+    <!-- ════════ /prog4 ════════ -->
+
+    <!-- ════════ prog5: 퇴실 체크아웃 ════════ -->
+    <div class="prog-block" id="prog5">
+      <div class="home-banner" style="background:linear-gradient(135deg,#831843,#db2777)">
+        <div class="prog-tag">PROGRAM 05</div>
+        <h2>🚪 퇴실 체크아웃</h2>
+        <p>호실별 상점·벌점, 정리정돈 상태 기록<br>귀가·퇴사·미입사 한 화면 관리</p>
+      </div>
+
+      <div class="subnav">
+        <button onclick="jumpTo('p5-1')">6-1 설정</button>
+        <button onclick="jumpTo('p5-2')">6-2 상벌점</button>
+        <button onclick="jumpTo('p5-3')">6-3 귀가·퇴사</button>
+        <button onclick="jumpTo('p5-4')">6-4 집계</button>
+        <button onclick="jumpTo('p5-5')">6-5 메모·초기화</button>
+      </div>
+
+      <p class="minor mb8">아침 등교 후 호실별 상점·벌점과 정리정돈 상태를 기록하고, 귀가·퇴사·미입사 명단을 한 화면에서 관리하는 프로그램입니다. 담당하는 두 개 층을 탭으로 전환하며 사용합니다.</p>
+
+      <div class="section-header" id="p5-1">6-1. 최초 설정 — 담당 층과 명단</div>
+      <div class="card">
+        <p class="minor">오른쪽 위 <span class="hi">[⚙️ 설정·데이터]</span>에서 방배정 명단 등록과 담당 두 개 층·탭 이름을 설정합니다. (기본 내장 명단이 있어 바로 사용도 가능합니다.)</p>
+      </div>
+
+      <div class="section-header" id="p5-2">6-2. 호실 상·벌점과 정리정돈 상태 기록</div>
+      <div class="card">
+        <p class="minor mb8">호실 카드 제목(예: "201호")을 누르면 호실 창이 열립니다. 호실 전체 벌점(호실정리불량·슬리퍼 미정리·미소등 등 공통)과 정리정돈 우수 등급(상·중·하)을 선택합니다. 개별 학생을 누르면 그 학생에게만 개인 벌점을 줄 수 있습니다.</p>
+        <table class="tbl">
+          <tr><th>항목</th><th>내용</th></tr>
+          <tr><td>호실 전체 벌점</td><td>정리불량·슬리퍼 미정리·미소등 등 전 인원 공통</td></tr>
+          <tr><td>정리정돈 우수 등급</td><td>상(3점)·중(2점)·하(1점) 선택 — 상점 누적</td></tr>
+          <tr><td>개인 벌점</td><td>개별 학생을 눌러 그 학생에게만 적용</td></tr>
+        </table>
+        <div class="alert tip">
+          <span class="al-icon">💡</span>
+          <div><b>체크 제외 대상</b><br>귀가·퇴사·미입사 학생은 호실에서 음영 처리되어, 호실 전체 벌점을 입력할 때도 자동으로 제외됩니다.</div>
+        </div>
+      </div>
+
+      <div class="section-header" id="p5-3">6-3. 귀가·퇴사 관리와 일지 연동</div>
+      <div class="card">
+        <p class="minor">상단 <span class="hi">[🚪 귀가·퇴사]</span>에서 명단을 붙여넣어 제외 대상을 등록하거나, 당일 일지 엑셀을 연동하면 귀가·퇴사·미입사 학생이 자동으로 체크에서 제외됩니다.</p>
+      </div>
+
+      <div class="section-header" id="p5-4">6-4. 집계 — 오늘 집계와 상점 순위</div>
+      <div class="card">
+        <p class="minor mb8">상단 <span class="hi">[📊 오늘 집계]</span>로 그날 결과를 정리해 복사할 수 있고, <span class="hi">[🏅 상점 집계]</span>로 특정 기간 내 정리정돈 우수 등급(상 3·중 2·하 1점)을 합산해 호실 순위를 매길 수 있습니다.</p>
+        <div class="alert tip">
+          <span class="al-icon">🏅</span>
+          <div>이 방법으로 <b>2주에 한 번</b> 정리정돈 우수 호실들을 선정해 단체 상점(3점)을 주시면 됩니다.</div>
+        </div>
+      </div>
+
+      <div class="section-header" id="p5-5">6-5. 메모·백업과 자동 초기화</div>
+      <div class="card">
+        <ul class="checklist">
+          <li><span><span class="hi">📝 메모 / 💾 전체 백업(1개) / 복원 / 🗓️ 기록 달력</span> — 당일 전달 사항을 적고, 모든 날짜 기록을 파일 하나로 저장·복원하며, 달력에서 날짜별로 확인합니다.</span></li>
+        </ul>
+        <div class="alert warn">
+          <span class="al-icon">⏰</span>
+          <div><b>자동 초기화</b><br>새 날이 시작되면(늦어도 오전 11시 이전) 당일 빈 시트로 자동 전환됩니다. 전날 기록은 날짜별로 영구 보관되어 상점·벌점 집계에 영향이 없습니다.</div>
+        </div>
+      </div>
+    </div>
+    <!-- ════════ /prog5 ════════ -->
+
+    <!-- ════════ prog6: 기숙사 관리일지 ════════ -->
+    <div class="prog-block" id="prog6">
+      <div class="home-banner" style="background:linear-gradient(135deg,#134e4a,#0891b2)">
+        <div class="prog-tag">PROGRAM 06</div>
+        <h2>📔 기숙사 관리일지</h2>
+        <p>근무일지·상벌점·상담·학사일정·관심학생<br>생활지도 기록을 한곳에서 종합 관리</p>
+      </div>
+
+      <div class="subnav">
+        <button onclick="jumpTo('p6-1')">7-1 화면구성</button>
+        <button onclick="jumpTo('p6-2')">7-2 학생상세</button>
+        <button onclick="jumpTo('p6-3')">7-3 상벌점</button>
+        <button onclick="jumpTo('p6-4')">7-4 당일·관심</button>
+        <button onclick="jumpTo('p6-5')">7-5 근무·학사</button>
+        <button onclick="jumpTo('p6-6')">7-6 설정</button>
+      </div>
+
+      <p class="minor mb8">근무일지·상벌점·상담·학사일정·관심학생 등 기숙사 생활지도 기록을 한곳에 모으는 종합 관리 프로그램입니다. 전교생을 학년별·호실별로 보면서 학생별 종합 정보를 관리합니다.</p>
+
+      <div class="section-header" id="p6-1">7-1. 화면 구성</div>
+      <div class="card">
+        <ul class="checklist">
+          <li><span><b>학년별 / 호실별 보기</b> — 오른쪽 위 토글로 전교생을 학년 순 또는 호실 순으로 볼 수 있습니다.</span></li>
+          <li><span><b>학생 카드</b> — 카드에 학번·이름이 표시되고, 누르면 그 학생의 상세 정보가 열립니다.</span></li>
+          <li><span><b>상단 기능 버튼</b> — ⚙️ 설정 · 📝 메모 · 📔 근무일지 · 📊 당일상벌점 · ✏️ 일괄입력 · 📅 학사일정 · ⭐ 관심학생</span></li>
+        </ul>
+      </div>
+
+      <div class="section-header" id="p6-2">7-2. 학생 상세 정보와 종합카드</div>
+      <div class="card">
+        <p class="minor mb8">학생 카드를 누르면 <b class="hi">학생 상세</b> 창이 열립니다. 연락처·보호자·특이사항을 적고 상벌점·상담 내역을 기록할 수 있으며, 학생을 <b class="hi">일반·관심·위기</b>로 분류할 수 있습니다.</p>
+        <div class="mockup">
+          <div class="mockup-pill-row">
+            <div class="mockup-pill on">일반</div>
+            <div class="mockup-pill">⭐ 관심</div>
+            <div class="mockup-pill">🚨 위기</div>
+          </div>
+        </div>
+        <p class="minor">오른쪽 위 <span class="hi">[📋 종합카드]</span>를 누르면 한 학생의 모든 정보(사진·연락처·상벌점·상담 내역)를 한 장으로 모아 보고 인쇄할 수 있습니다.</p>
+      </div>
+
+      <div class="section-header" id="p6-3">7-3. 상벌점 — 개별·일괄 입력</div>
+      <div class="card">
+        <p class="minor mb8">학생 상세의 상벌점 탭에서 개별로 줄 수도 있고, 상단 <span class="hi">[✏️ 일괄입력]</span>으로 여러 학생에게 같은 항목을 한 번에 줄 수도 있습니다.</p>
+        <ol class="steps">
+          <li><span class="step-num">1</span><span>상벌점 항목과 사유를 선택합니다.</span></li>
+          <li><span class="step-num">2</span><span>학번을 입력하고 <span class="hi">[추가]</span>를 눌러 대상 학생을 모읍니다. (여러 명 가능)</span></li>
+          <li><span class="step-num">3</span><span><span class="hi">[일괄 적용]</span>을 누르면 모든 학생에게 한 번에 기록됩니다.</span></li>
+        </ol>
+      </div>
+
+      <div class="section-header" id="p6-4">7-4. 당일 상벌점과 관심학생</div>
+      <div class="card">
+        <ul class="checklist">
+          <li><span><span class="hi">📊 당일상벌점</span> — 근무 시간(예: 15:00~익일 09:00) 동안 받은 상벌점을 모아 보여 줍니다.</span></li>
+          <li><span><span class="hi">⭐ 관심학생</span> — 관심·위기로 분류한 학생만 모아 보여 줍니다.</span></li>
+        </ul>
+      </div>
+
+      <div class="section-header" id="p6-5">7-5. 근무일지와 학사일정</div>
+      <div class="card">
+        <p class="minor mb8"><span class="hi">[📔 근무일지]</span>는 날짜별 일지와 당일 상담 요약을 적고 확인하는 공간입니다. <span class="hi">[📅 학사일정]</span>은 학기별 달력에 학사 일정과 할일을 추가·수정하며 관리합니다.</p>
+        <div class="alert teal">
+          <span class="al-icon">📅</span>
+          <div><b>한성과학고 1년간 학사 일정이 그대로 이식</b>되어 있으며, 날짜를 탭하여 일정을 수정·추가할 수 있습니다. 날짜를 탭하여 할일을 등록해 놓으면 해당일에 알림 팝업창이 뜹니다.</div>
+        </div>
+      </div>
+
+      <div class="section-header" id="p6-6">7-6. 설정 · 데이터</div>
+      <div class="card">
+        <p class="minor mb8">[⚙️ 설정]에서 당일 귀가/퇴사 명단 연동, 담당 사감 이름, 전체 백업/복원, 구글 드라이브 자동 백업(공통안내 1-4 참고)을 설정합니다.</p>
+        <ul class="checklist">
+          <li><span><span class="hi">🏠 당일 귀가/퇴사 명단 연동</span> — 귀가외출교내활동 엑셀 또는 기숙사 일지 엑셀을 불러오면 해당 학생 카드가 옅은 빨강으로 표시됩니다.</span></li>
+          <li><span><span class="hi">💾 전체 백업 / 복원</span> — 명단·연락처·사진·모든 기록을 파일 하나로 저장하고 복원합니다.</span></li>
+          <li><span><span class="hi-blue">☁️ 구글 드라이브 자동 백업</span> — 공통안내 1-4 안내대로 연결하면 자동 백업됩니다.</span></li>
+        </ul>
+      </div>
+    </div>
+    <!-- ════════ /prog6 ════════ -->
+
   </div>
-
-  <div class="divider" style="margin:24px 0;border-top:3px dashed #e2e8f0;"></div>
-
-  <!-- 심야 자습 -->
-  <div id="prog3">
-    <div class="home-banner" style="background:linear-gradient(135deg,#4c1d95,#7c3aed)">
-      <h2>🌙 심야 자습 출석부</h2>
-      <p>좌석 터치로 출석/부재만 빠르게<br>자습실 출석부의 단순 버전</p>
-    </div>
-
-    <div class="section-header">사용 방법</div>
-    <div class="card">
-      <ol class="steps">
-        <li><span class="step-num">1</span><span><span class="hi">[🔄 배치도]</span> 버튼으로 좌석 배치도 엑셀을 처음 한 번 등록합니다. (이후 계속 유지)</span></li>
-        <li><span class="step-num">2</span><span>상단 제목을 눌러 <span class="hi">자습실 이름</span>을 학년에 맞게 바꿉니다.</span></li>
-        <li><span class="step-num">3</span><span>출석한 학생의 좌석을 누르면 <span class="hi-green">초록색(출석)</span>으로 바뀝니다. 다시 누르면 흰색(부재)으로 돌아갑니다.</span></li>
-        <li><span class="step-num">4</span><span>상단에 <span class="hi">총원 · 출석 · 부재</span> 인원이 실시간 집계됩니다.</span></li>
-      </ol>
-    </div>
-    <div class="card">
-      <div class="sub-title">자습실 출석부와의 차이</div>
-      <table class="tbl">
-        <tr><th>자습실 출석부</th><th>심야 자습 출석부</th></tr>
-        <tr><td>교시별·사유별 상세 출결</td><td>출석/부재만 빠르게</td></tr>
-        <tr><td>조퇴·외출·상담 등 색상 구분</td><td>점호처럼 인원만 확인</td></tr>
-      </table>
-    </div>
-  </div>
-
-  <div class="divider" style="margin:24px 0;border-top:3px dashed #e2e8f0;"></div>
-
-  <!-- 전자기기 관리 -->
-  <div id="prog4">
-    <div class="home-banner" style="background:linear-gradient(135deg,#7c2d12,#ea580c)">
-      <h2>📱 전자기기 관리</h2>
-      <p>핸드폰·태블릿·노트북 제출 여부<br>학년별 체크 — 미제출만 빠르게 표시</p>
-    </div>
-
-    <div class="section-header">처음 한 번만 하는 준비</div>
-    <div class="card">
-      <ol class="steps">
-        <li><span class="step-num">1</span><span><span class="hi">[☰ 메뉴] → [📁 학생 명단 등록]</span>으로 방배정 엑셀을 등록합니다.<br><span class="minor">예: 남학생방배정.xlsx</span></span></li>
-        <li><span class="step-num">2</span><span><span class="hi">[🛠️ 보유설정]</span>으로 핸드폰·태블릿·노트북을 가지고 있지 않은 학생을 표시합니다. 해당 칸을 눌러 <span class="hi-green">미보유(초록)</span>로 바꾸면 됩니다.</span></li>
-      </ol>
-      <div class="alert tip">
-        <span class="al-icon">💡</span>
-        <div>학생 명단과 기기 보유 설정은 자동 저장됩니다. 학생 변동이 있을 때만 다시 수정하세요.</div>
-      </div>
-    </div>
-
-    <div class="section-header">매일 하는 작업</div>
-    <div class="card">
-      <ol class="steps">
-        <li><span class="step-num">1</span><span><span class="hi">[📅 일지 연동]</span>으로 그날의 기숙사 일지 엑셀을 연동합니다. 퇴사·귀가자가 자동 음영 처리됩니다.</span></li>
-        <li><span class="step-num">2</span><span>상단 <span class="hi">[1학년] [2학년] [3학년] 탭</span>으로 학년을 전환하며 체크합니다.</span></li>
-        <li><span class="step-num">3</span><span><span class="hi-red">미제출 기기만 눌러 빨강으로 표시</span>합니다. 나머지는 그대로 두면 제출 완료 처리됩니다.</span></li>
-      </ol>
-
-      <div class="divider"></div>
-      <div class="sub-title">기기 칸 색상 의미</div>
-      <table class="tbl">
-        <tr><th>색상</th><th>상태</th><th>의미</th></tr>
-        <tr><td><span class="color-dot" style="background:#94a3b8"></span>회색</td><td>보유 기기</td><td>제출 완료 (기본값)</td></tr>
-        <tr><td><span class="color-dot" style="background:#22c55e"></span>초록</td><td>미보유</td><td>해당 기기가 없는 학생</td></tr>
-        <tr><td><span class="color-dot" style="background:#ef4444"></span>빨강</td><td>미제출</td><td>제출하지 않은 기기</td></tr>
-      </table>
-    </div>
-
-    <div class="card">
-      <div class="sub-title">미제출 현황 & 백업</div>
-      <ul class="checklist">
-        <li><span><span class="hi">🚨 미제출 현황</span> — 미제출 학생과 기기 대수 합계 표시</span></li>
-        <li><span><span class="hi">📥 미제출 명단 엑셀 저장</span> — 미제출자 명단 내보내기</span></li>
-        <li><span><span class="hi">📅 날짜별 미제출 기록</span> — 체크할 때마다 자동 저장</span></li>
-        <li><span><span class="hi">💾 백업 / 📂 복원</span> — 명단·보유설정·모든 기록을 파일 하나로 저장</span></li>
-      </ul>
-      <div class="alert warn">
-        <span class="al-icon">⏰</span>
-        <div><b>자동 초기화</b> — 미제출 체크는 매일 <b>오전 9시</b>에 자동 초기화됩니다. (명단과 보유설정은 유지)</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="divider" style="margin:24px 0;border-top:3px dashed #e2e8f0;"></div>
-
-  <!-- 퇴실 체크아웃 -->
-  <div id="prog5">
-    <div class="home-banner" style="background:linear-gradient(135deg,#831843,#db2777)">
-      <h2>🚪 퇴실 체크아웃</h2>
-      <p>호실별 상·벌점, 정리정돈 등급<br>귀가·퇴사·미입사 한 화면 관리</p>
-    </div>
-
-    <div class="section-header">처음 설정</div>
-    <div class="card">
-      <p class="minor mb8">오른쪽 위 <span class="hi">[⚙️ 설정·데이터]</span>를 눌러 기본 설정을 합니다.</p>
-      <ul class="checklist">
-        <li><span><span class="hi">📋 방배정 명단 등록</span> — 남학생방배정.xlsx(서현관은 여학생방배정.xlsx) 등록. 이후 호실·학생 구성이 교체되며 영구 유지</span></li>
-        <li><span><span class="hi">🏢 담당 층·탭 설정</span> — 담당하는 2개 층을 선택하고 탭 이름 설정<br><span class="minor">예: 2층, 3층</span></span></li>
-      </ul>
-    </div>
-
-    <div class="section-header">호실 상·벌점 & 정리정돈</div>
-    <div class="card">
-      <p class="minor mb8">호실 카드 제목(예: "201호")을 누르면 호실 전체 벌점과 정리정돈 우수 등급 입력 창이 열립니다.</p>
-      <table class="tbl">
-        <tr><th>항목</th><th>내용</th></tr>
-        <tr><td>호실 전체 벌점</td><td>정리불량·슬리퍼 미정리·미소등 등 전 인원 공통</td></tr>
-        <tr><td>정리정돈 우수 등급</td><td>상(3점)·중(2점)·하(1점) 선택 — 상점 누적</td></tr>
-        <tr><td>개인 벌점</td><td>개별 학생을 눌러 그 학생에게만 적용</td></tr>
-      </table>
-      <div class="alert tip">
-        <span class="al-icon">💡</span>
-        <div>귀가·퇴사·미입사 학생은 음영 처리되어 호실 전체 벌점 입력 시 자동으로 제외됩니다.</div>
-      </div>
-    </div>
-
-    <div class="section-header">귀가·퇴사·미입사 관리</div>
-    <div class="card">
-      <p class="minor mb8"><span class="hi">[🚪 귀가·퇴사]</span> 버튼에서 그날 체크 제외 학생을 관리합니다.</p>
-      <ul class="checklist">
-        <li><span>명단 텍스트 붙여넣기 → "귀가·퇴사·명령퇴사·미입사" 키워드를 자동 인식해 학번/이름으로 매칭</span></li>
-        <li><span>상단 <span class="hi">일지 연동 버튼</span>에서 '귀가외출교내활동' 엑셀을 연동하면 자동 반영, 이후 개별 수정 가능</span></li>
-      </ul>
-    </div>
-
-    <div class="section-header">집계 & 백업</div>
-    <div class="card">
-      <ul class="checklist">
-        <li><span><span class="hi">📊 오늘 집계</span> — 오늘 체크아웃 결과 정리, [📋 복사]로 내용 복사</span></li>
-        <li><span><span class="hi">🏅 상점 집계</span> — 기간(시작일~종료일) 내 정리정돈 우수 등급 합산 순위</span></li>
-        <li><span><span class="hi">📝 당일 특이사항 메모</span> — 전달 사항 자유롭게 입력, 자동 저장</span></li>
-        <li><span><span class="hi">💾 전체 백업(1개) / 📂 복원</span> — 모든 날짜 상·벌점·등급·메모를 파일 하나로 저장</span></li>
-        <li><span><span class="hi">🗓️ 기록 달력</span> — 파란 점이 있는 날은 기록 있는 날. 날짜 누르면 그날 기록으로 이동</span></li>
-      </ul>
-      <div class="alert warn">
-        <span class="al-icon">⏰</span>
-        <div><b>자동 초기화</b> — 새 날이 시작되면(늦어도 오전 11시 이전) 당일 빈 시트로 자동 전환됩니다. 전날 기록은 영구 보관됩니다.</div>
-      </div>
-    </div>
-  </div>
+  <!-- /prog-detail -->
 
 </div>
-
+<!-- /page-programs -->
 <!-- ══════════════════════════════════════ -->
-<!-- 페이지 4: 매일 체크리스트 -->
+<!-- 페이지 4: 체크리스트 -->
 <!-- ══════════════════════════════════════ -->
 <div class="page" id="page-checklist">
 
   <div class="home-banner" style="background:linear-gradient(135deg,#134e4a,#0f766e)">
-    <h2>✅ 매일 체크리스트</h2>
-    <p>매일 반드시 해야 할 작업 요약</p>
+    <h2>✅ 처음 시작 체크리스트</h2>
+    <p>프로그램을 사용하기 전 꼭 확인하세요</p>
   </div>
 
-  <div class="section-header">자습실 출석부 / 심야 자습</div>
-  <div class="card" style="border-left:4px solid var(--blue)">
-    <ol class="steps">
-      <li><span class="step-num">1</span><span>자습 시작 전: <span class="hi">당일 출석부 엑셀 연동</span></span></li>
-      <li><span class="step-num">2</span><span>자습 중: 좌석 상태 체크</span></li>
-      <li><span class="step-num">3</span><span>3교시 후: <span class="hi">[📤 3교시 출결 내보내기]</span>로 부재자 명단 전송</span></li>
-      <li><span class="step-num">4</span><span>종료 후: <span class="hi">[🗓️ 과거 기록] → [📥 백업]</span> 실행</span></li>
-    </ol>
-  </div>
-
-  <div class="section-header">아침 점호</div>
-  <div class="card" style="border-left:4px solid var(--green)">
-    <ol class="steps">
-      <li><span class="step-num">1</span><span>당일 명단 등록</span></li>
-      <li><span class="step-num">2</span><span>데이터 동기화</span></li>
-      <li><span class="step-num">3</span><span><span class="hi">[📊 당일 점호 종료]</span>로 집계</span></li>
-      <li><span class="step-num">4</span><span>백업 실행</span></li>
-    </ol>
-  </div>
-
-  <div class="section-header">전자기기 관리</div>
-  <div class="card" style="border-left:4px solid var(--orange)">
-    <ol class="steps">
-      <li><span class="step-num">1</span><span>일지 연동</span></li>
-      <li><span class="step-num">2</span><span>학년별 미제출만 빨강으로 체크</span></li>
-      <li><span class="step-num">3</span><span>미제출 현황 확인</span></li>
-      <li><span class="step-num">4</span><span>백업 실행</span></li>
-    </ol>
-  </div>
-
-  <div class="section-header">퇴실 체크아웃</div>
-  <div class="card" style="border-left:4px solid #db2777">
-    <ol class="steps">
-      <li><span class="step-num">1</span><span>일지 연동 / 제외 학생 등록</span></li>
-      <li><span class="step-num">2</span><span>호실별 상·벌점·등급 입력</span></li>
-      <li><span class="step-num">3</span><span><span class="hi">[📊 오늘 집계]</span> 확인</span></li>
-      <li><span class="step-num">4</span><span>메모 작성</span></li>
-    </ol>
-  </div>
-
-  <div class="section-header">공통 주간 작업</div>
+  <div class="section-header">처음 시작할 때 체크리스트</div>
   <div class="card" style="background:#f0fdf4;border-color:#86efac;">
-    <ul class="checklist">
-      <li><span>주 1회 다운로드 폴더의 파일을 전용 백업 폴더로 정리</span></li>
-      <li><span>백업 파일 안전한 장소에 보관 (개인 드라이브 또는 USB)</span></li>
-    </ul>
+    <ol class="steps">
+      <li><span class="step-num">①</span><span>각 프로그램을 설치 안내문에 따라 <span class="hi">홈 화면에 설치</span></span></li>
+      <li><span class="step-num">②</span><span>프로그램마다 <span class="hi">이름(학년)을 다르게</span> 설정</span></li>
+      <li><span class="step-num">③</span><span>[⚙️ 설정]에서 <span class="hi">구글 드라이브 연결 + 자동 백업 켜기</span> (클라이언트 ID는 담당 선생님에게 받기)</span></li>
+      <li><span class="step-num">④</span><span><span class="hi">명단·배치도 등 최초 1회 등록 항목</span> 준비</span></li>
+    </ol>
   </div>
 
-  <div class="section-header">문의 및 업데이트</div>
+  <div class="section-header">매일 사용 흐름 (요약)</div>
+
+  <div class="card" style="border-left:4px solid var(--blue)">
+    <div class="card-title" style="margin-bottom:4px;"><div class="icon" style="background:#dbeafe;">📋</div>자습실 / 심야 자습</div>
+    <p class="minor">당일 출석부 연동 → 좌석 체크 → 부재자 전송 → (자동) 백업</p>
+  </div>
+
+  <div class="card" style="border-left:4px solid var(--green)">
+    <div class="card-title" style="margin-bottom:4px;"><div class="icon" style="background:#dcfce7;">🌅</div>아침 점호</div>
+    <p class="minor">당일 일지 연동 → 학번 입력 체크 → 점호 종료 → 불참자 공유</p>
+  </div>
+
+  <div class="card" style="border-left:4px solid var(--orange)">
+    <div class="card-title" style="margin-bottom:4px;"><div class="icon" style="background:#fff7ed;">📱</div>전자기기</div>
+    <p class="minor">일지 연동 → 학년별 미제출만 체크 → 미제출 현황 확인</p>
+  </div>
+
+  <div class="card" style="border-left:4px solid #db2777">
+    <div class="card-title" style="margin-bottom:4px;"><div class="icon" style="background:#fce7f3;">🚪</div>퇴실 체크아웃</div>
+    <p class="minor">일지 연동 → 호실별 상·벌점·기록 → 오늘 집계 → 메모</p>
+  </div>
+
+  <div class="card" style="border-left:4px solid var(--teal)">
+    <div class="card-title" style="margin-bottom:4px;"><div class="icon" style="background:#ccfbf1;">📔</div>기숙사 관리일지</div>
+    <p class="minor">귀가/퇴사 연동 → 상벌점·상담 기록 → 근무일지 작성</p>
+  </div>
+
+  <div class="section-header">문의</div>
   <div class="card">
     <p style="font-size:14px;line-height:1.7;color:#374151;">
-      이 프로그램들은 초기 버전으로, 현장에서 사용하며 발견한 불편함이나 개선 의견을 반영해 계속 업데이트됩니다.<br><br>
-      <span class="hi">오류나 건의사항이 있으면 담당 선생님에게 전달해 주세요.</span>
+      사용 중 오류나 개선 의견이 있으면 담당 선생님에게 전달해 주세요.<br><br>
+      <span class="hi">프로그램은 따로 설치할 필요 없이, 앱을 다시 실행하면 최신 상태로 갱신됩니다.</span>
     </p>
-    <div class="alert tip" style="margin-top:10px;">
-      <span class="al-icon">🔄</span>
-      <div>업데이트는 선생님이 별도로 설치할 필요 없이, 앱을 다시 열면 <b>자동으로 적용</b>됩니다.</div>
-    </div>
   </div>
 
 </div>
-
 <!-- ── 하단 탭바 ── -->
 <nav class="tab-bar">
   <button class="tab-item active" onclick="showPage('home', this)">
@@ -869,17 +1355,36 @@
     document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
     document.getElementById('page-' + id).classList.add('active');
     btn.classList.add('active');
+    if (id === 'programs') { showProgList(); }
     window.scrollTo(0, 0);
   }
 
-  function goProgPage(anchorId) {
-    // 프로그램 탭으로 이동 후 해당 프로그램으로 스크롤
+  // ── 프로그램 선택 / 상세 전환 ──
+  function showProgList() {
+    document.getElementById('prog-selector').style.display = 'block';
+    document.getElementById('prog-detail').style.display = 'none';
+  }
+
+  function showProgDetail(id) {
+    document.getElementById('prog-selector').style.display = 'none';
+    document.getElementById('prog-detail').style.display = 'block';
+    document.querySelectorAll('#prog-detail .prog-block').forEach(d => d.style.display = 'none');
+    const target = document.getElementById(id);
+    if (target) target.style.display = 'block';
+    window.scrollTo(0, 0);
+  }
+
+  function goProgPage(id) {
+    // 홈 화면 카드에서 특정 프로그램으로 바로 진입
     const tabBtns = document.querySelectorAll('.tab-item');
     showPage('programs', tabBtns[2]);
-    setTimeout(() => {
-      const el = document.getElementById(anchorId);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
+    showProgDetail(id);
+  }
+
+  function jumpTo(id) {
+    // 프로그램 상세 안의 소제목으로 부드럽게 스크롤
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   // ===== 서비스워커 등록 (PWA 오프라인 지원) =====
