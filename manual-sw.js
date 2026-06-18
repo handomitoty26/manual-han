@@ -4,7 +4,7 @@
 // 업데이트 시 버전 숫자를 1씩 올려주세요 (v1 → v2 → v3 ...)
 // =====================================================
 
-const CACHE_NAME = 'dormitory-manual-v1';
+const CACHE_NAME = 'dormitory-manual-v2';
 
 // 오프라인에서도 사용할 파일 목록
 const FILES_TO_CACHE = [
